@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
   const [title, setTitle] = useState("");
@@ -30,6 +30,7 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
   const [pros, setPros] = useState("");
   const [cons, setCons] = useState("");
   const [conclusion, setConclusion] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (post) {
@@ -71,6 +72,21 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
     });
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (image && image.startsWith("blob:")) {
+        URL.revokeObjectURL(image);
+      }
+      const newImageUrl = URL.createObjectURL(file);
+      setImage(newImageUrl);
+    }
+  };
+
+  const triggerFileUpload = () => {
+    fileInputRef.current?.click();
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-2xl">
@@ -92,14 +108,36 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="image" className="text-right">
-                URL da Imagem
+                Imagem
               </Label>
-              <Input
-                id="image"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-                className="col-span-3"
-              />
+              <div className="col-span-3 flex flex-col gap-2">
+                <div className="flex gap-2">
+                  <Input
+                    id="image"
+                    value={image}
+                    onChange={(e) => setImage(e.target.value)}
+                    className="flex-grow"
+                    placeholder="Ou cole a URL aqui"
+                  />
+                  <Button type="button" variant="outline" onClick={triggerFileUpload}>
+                    Upload
+                  </Button>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleImageUpload}
+                    className="hidden"
+                    accept="image/*"
+                  />
+                </div>
+                {image && (
+                  <img
+                    src={image}
+                    alt="Pré-visualização"
+                    className="mt-2 rounded-md object-cover h-32 w-32"
+                  />
+                )}
+              </div>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="rating" className="text-right">
