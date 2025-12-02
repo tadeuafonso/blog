@@ -52,7 +52,7 @@ const AdminHeader = () => {
               to="/"
               className="flex items-center gap-2 text-lg font-semibold mb-4"
             >
-              <Check className="h-6 w-6 text-primary" />
+              <Check className="h-6 w-6 text-primary" strokeWidth={3} />
               <span className="">Qual</span>
             </Link>
             <Link

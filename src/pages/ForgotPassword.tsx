@@ -30,7 +30,7 @@ const ForgotPassword = () => {
     <div className="flex flex-col justify-center items-center min-h-screen bg-background p-4">
       <div className="mb-8 text-center">
         <Link to="/" className="flex items-center justify-center gap-2">
-          <Check className="h-8 w-8 text-primary" />
+          <Check className="h-8 w-8 text-primary" strokeWidth={3} />
           <span className="text-3xl font-bold text-foreground">Qual</span>
         </Link>
       </div>

@@ -12,7 +12,7 @@ const AdminSidebar = () => {
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link to="/" className="flex items-center gap-2 font-semibold">
-            <Check className="h-6 w-6 text-primary" />
+            <Check className="h-6 w-6 text-primary" strokeWidth={3} />
             <span className="">Qual</span>
           </Link>
           <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
