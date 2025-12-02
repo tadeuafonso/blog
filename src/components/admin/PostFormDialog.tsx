@@ -20,12 +20,15 @@ import {
 } from "@/components/ui/select";
 import { useEffect, useState, useRef } from "react";
 import { Upload } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { showError } from "@/utils/toast";
 
 export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
   const [title, setTitle] = useState("");
   const [rating, setRating] = useState("");
   const [status, setStatus] = useState("Rascunho");
   const [image, setImage] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [tags, setTags] = useState("");
   const [summary, setSummary] = useState("");
   const [pros, setPros] = useState("");
@@ -49,7 +52,6 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
       setAffiliateLinkAmazon(post.affiliate_link_amazon || "");
       setAffiliateLinkMl(post.affiliate_link_ml || "");
     } else {
-      // Reset form for new post
       setTitle("");
       setRating("");
       setStatus("Rascunho");
@@ -62,15 +64,35 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
       setAffiliateLinkAmazon("");
       setAffiliateLinkMl("");
     }
+    setImageFile(null);
   }, [post]);
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    let imageUrl = image;
+    if (imageFile) {
+      const filePath = `public/${Date.now()}-${imageFile.name}`;
+      const { error: uploadError } = await supabase.storage
+        .from('post_images')
+        .upload(filePath, imageFile);
+
+      if (uploadError) {
+        showError("Erro ao enviar a imagem: " + uploadError.message);
+        return;
+      }
+
+      const { data } = supabase.storage
+        .from('post_images')
+        .getPublicUrl(filePath);
+      
+      imageUrl = data.publicUrl;
+    }
+
     onSave({
       ...post,
       title,
       rating: parseFloat(rating.replace(',', '.')) || 0,
       status,
-      image,
+      image: imageUrl,
       tags: tags.split(",").map(tag => tag.trim()).filter(Boolean),
       summary,
       pros: pros.split("\n").filter(Boolean),
@@ -87,8 +109,8 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
       if (image && image.startsWith("blob:")) {
         URL.revokeObjectURL(image);
       }
-      const newImageUrl = URL.createObjectURL(file);
-      setImage(newImageUrl);
+      setImage(URL.createObjectURL(file));
+      setImageFile(file);
     }
   };
 

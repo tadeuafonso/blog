@@ -12,11 +12,14 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useEffect, useState, useRef } from "react";
 import { Upload } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { showError } from "@/utils/toast";
 
 export const OfferFormDialog = ({ offer, open, onOpenChange, onSave }) => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [tag, setTag] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -27,20 +30,39 @@ export const OfferFormDialog = ({ offer, open, onOpenChange, onSave }) => {
       setImage(offer.image || "");
       setTag(offer.tag || "");
     } else {
-      // Reset form for new offer
       setName("");
       setPrice("");
       setImage("");
       setTag("");
     }
+    setImageFile(null);
   }, [offer]);
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    let imageUrl = image;
+    if (imageFile) {
+      const filePath = `public/${Date.now()}-${imageFile.name}`;
+      const { error: uploadError } = await supabase.storage
+        .from('offer_images')
+        .upload(filePath, imageFile);
+
+      if (uploadError) {
+        showError("Erro ao enviar a imagem: " + uploadError.message);
+        return;
+      }
+
+      const { data } = supabase.storage
+        .from('offer_images')
+        .getPublicUrl(filePath);
+      
+      imageUrl = data.publicUrl;
+    }
+
     onSave({
       ...offer,
       name,
       price,
-      image,
+      image: imageUrl,
       tag,
     });
   };
@@ -51,8 +73,8 @@ export const OfferFormDialog = ({ offer, open, onOpenChange, onSave }) => {
       if (image && image.startsWith("blob:")) {
         URL.revokeObjectURL(image);
       }
-      const newImageUrl = URL.createObjectURL(file);
-      setImage(newImageUrl);
+      setImage(URL.createObjectURL(file));
+      setImageFile(file);
     }
   };
 
