@@ -138,13 +138,11 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
               </Label>
               <Input
                 id="rating"
-                type="number"
+                type="text"
                 value={rating}
-                onChange={(e) => setRating(e.target.value)}
+                onChange={(e) => setRating(e.target.value.replace(',', '.'))}
                 className="col-span-3"
-                step="0.1"
-                min="0"
-                max="10"
+                placeholder="Ex: 9,8"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
