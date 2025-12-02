@@ -2,11 +2,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   CircleUser,
   Menu,
-  Package2,
   Search,
   Home,
   FileText,
-  Tag
+  Tag,
+  BadgeCheck
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -49,11 +49,11 @@ const AdminHeader = () => {
         <SheetContent side="left" className="flex flex-col">
           <nav className="grid gap-2 text-lg font-medium">
             <Link
-              to="#"
-              className="flex items-center gap-2 text-lg font-semibold"
+              to="/"
+              className="flex items-center gap-2 text-lg font-semibold mb-4"
             >
-              <Package2 className="h-6 w-6" />
-              <span className="sr-only">ReviewTech</span>
+              <BadgeCheck className="h-6 w-6 text-primary" />
+              <span className="">Qual Comprar?</span>
             </Link>
             <Link
               to="/admin"

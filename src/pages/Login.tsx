@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, BadgeCheck } from 'lucide-react';
 import { showError, showSuccess } from '@/utils/toast';
 
 const Login = () => {
@@ -48,7 +48,8 @@ const Login = () => {
     <div className="flex flex-col justify-center items-center min-h-screen bg-background p-4">
       <div className="mb-8 text-center">
         <Link to="/" className="flex items-center justify-center gap-2">
-          <span className="text-3xl font-bold text-foreground">ReviewTech</span>
+          <BadgeCheck className="h-8 w-8 text-primary" />
+          <span className="text-3xl font-bold text-foreground">Qual Comprar?</span>
         </Link>
       </div>
       <Tabs defaultValue="login" className="w-full max-w-sm">
