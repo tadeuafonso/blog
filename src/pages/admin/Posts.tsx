@@ -9,16 +9,10 @@ import { useState } from "react";
 import { PostFormDialog } from "@/components/admin/PostFormDialog";
 import { DeleteConfirmationDialog } from "@/components/admin/DeleteConfirmationDialog";
 import { showSuccess } from "@/utils/toast";
-
-const initialPosts = [
-  { id: "1", title: "iPhone 15 Pro", rating: 9.8, status: "Publicado" },
-  { id: "2", title: "Galaxy Z Fold 5", rating: 9.5, status: "Publicado" },
-  { id: "3", title: "Pixel 8 Pro", rating: 9.2, status: "Rascunho" },
-  { id: "4", title: "Xiaomi 14", rating: 9.0, status: "Publicado" },
-];
+import { initialPostsData } from "../../data/posts";
 
 const PostsPage = () => {
-  const [posts, setPosts] = useState(initialPosts);
+  const [posts, setPosts] = useState(initialPostsData);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
@@ -52,7 +46,7 @@ const PostsPage = () => {
       showSuccess("Post atualizado com sucesso!");
     } else {
       // Add new post
-      const newPost = { ...postData, id: (posts.length + 1).toString() };
+      const newPost = { ...postData, id: (Math.random() * 10000).toString() };
       setPosts([...posts, newPost]);
       showSuccess("Post criado com sucesso!");
     }

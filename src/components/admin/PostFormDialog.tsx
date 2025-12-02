@@ -9,6 +9,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
@@ -22,16 +24,35 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
   const [title, setTitle] = useState("");
   const [rating, setRating] = useState("");
   const [status, setStatus] = useState("Rascunho");
+  const [image, setImage] = useState("");
+  const [tags, setTags] = useState("");
+  const [summary, setSummary] = useState("");
+  const [pros, setPros] = useState("");
+  const [cons, setCons] = useState("");
+  const [conclusion, setConclusion] = useState("");
 
   useEffect(() => {
     if (post) {
-      setTitle(post.title);
-      setRating(post.rating.toString());
-      setStatus(post.status);
+      setTitle(post.title || "");
+      setRating(post.rating?.toString() || "");
+      setStatus(post.status || "Rascunho");
+      setImage(post.image || "");
+      setTags(post.tags?.join(", ") || "");
+      setSummary(post.summary || "");
+      setPros(post.pros?.join("\n") || "");
+      setCons(post.cons?.join("\n") || "");
+      setConclusion(post.conclusion || "");
     } else {
+      // Reset form for new post
       setTitle("");
       setRating("");
       setStatus("Rascunho");
+      setImage("");
+      setTags("");
+      setSummary("");
+      setPros("");
+      setCons("");
+      setConclusion("");
     }
   }, [post]);
 
@@ -41,57 +62,138 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
       title,
       rating: parseFloat(rating) || 0,
       status,
+      image,
+      tags: tags.split(",").map(tag => tag.trim()).filter(Boolean),
+      summary,
+      pros: pros.split("\n").filter(Boolean),
+      cons: cons.split("\n").filter(Boolean),
+      conclusion,
     });
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>{post ? "Editar Review" : "Adicionar Nova Review"}</DialogTitle>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="title" className="text-right">
-              Título
-            </Label>
-            <Input
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="col-span-3"
-            />
+        <ScrollArea className="max-h-[70vh] pr-6">
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="title" className="text-right">
+                Título
+              </Label>
+              <Input
+                id="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="col-span-3"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="image" className="text-right">
+                URL da Imagem
+              </Label>
+              <Input
+                id="image"
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+                className="col-span-3"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="rating" className="text-right">
+                Avaliação
+              </Label>
+              <Input
+                id="rating"
+                type="number"
+                value={rating}
+                onChange={(e) => setRating(e.target.value)}
+                className="col-span-3"
+                step="0.1"
+                min="0"
+                max="10"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="status" className="text-right">
+                Status
+              </Label>
+              <Select value={status} onValueChange={setStatus}>
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Selecione o status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Publicado">Publicado</SelectItem>
+                  <SelectItem value="Rascunho">Rascunho</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="tags" className="text-right">
+                Tags
+              </Label>
+              <Input
+                id="tags"
+                value={tags}
+                onChange={(e) => setTags(e.target.value)}
+                className="col-span-3"
+                placeholder="Premium, iOS, Fotografia"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label htmlFor="summary" className="text-right pt-2">
+                Resumo
+              </Label>
+              <Textarea
+                id="summary"
+                value={summary}
+                onChange={(e) => setSummary(e.target.value)}
+                className="col-span-3"
+                rows={4}
+              />
+            </div>
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label htmlFor="pros" className="text-right pt-2">
+                Pontos Positivos
+              </Label>
+              <Textarea
+                id="pros"
+                value={pros}
+                onChange={(e) => setPros(e.target.value)}
+                className="col-span-3"
+                rows={5}
+                placeholder="Um ponto por linha..."
+              />
+            </div>
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label htmlFor="cons" className="text-right pt-2">
+                Pontos Negativos
+              </Label>
+              <Textarea
+                id="cons"
+                value={cons}
+                onChange={(e) => setCons(e.target.value)}
+                className="col-span-3"
+                rows={5}
+                placeholder="Um ponto por linha..."
+              />
+            </div>
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label htmlFor="conclusion" className="text-right pt-2">
+                Conclusão
+              </Label>
+              <Textarea
+                id="conclusion"
+                value={conclusion}
+                onChange={(e) => setConclusion(e.target.value)}
+                className="col-span-3"
+                rows={4}
+              />
+            </div>
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="rating" className="text-right">
-              Avaliação
-            </Label>
-            <Input
-              id="rating"
-              type="number"
-              value={rating}
-              onChange={(e) => setRating(e.target.value)}
-              className="col-span-3"
-              step="0.1"
-              min="0"
-              max="10"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="status" className="text-right">
-              Status
-            </Label>
-            <Select value={status} onValueChange={setStatus}>
-              <SelectTrigger className="col-span-3">
-                <SelectValue placeholder="Selecione o status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Publicado">Publicado</SelectItem>
-                <SelectItem value="Rascunho">Rascunho</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
+        </ScrollArea>
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" variant="secondary">
