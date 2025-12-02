@@ -36,7 +36,7 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
   useEffect(() => {
     if (post) {
       setTitle(post.title || "");
-      setRating(post.rating?.toString() || "");
+      setRating(post.rating?.toString().replace('.', ',') || "");
       setStatus(post.status || "Rascunho");
       setImage(post.image || "");
       setTags(post.tags?.join(", ") || "");
@@ -62,7 +62,7 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
     onSave({
       ...post,
       title,
-      rating: parseFloat(rating) || 0,
+      rating: parseFloat(rating.replace(',', '.')) || 0,
       status,
       image,
       tags: tags.split(",").map(tag => tag.trim()).filter(Boolean),
@@ -140,7 +140,7 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
                 id="rating"
                 type="text"
                 value={rating}
-                onChange={(e) => setRating(e.target.value.replace(',', '.'))}
+                onChange={(e) => setRating(e.target.value)}
                 className="col-span-3"
                 placeholder="Ex: 9,8"
               />
