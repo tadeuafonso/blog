@@ -159,6 +159,9 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
                 Imagem
               </Label>
               <div className="col-span-3 flex flex-col items-start gap-2">
+                <p className="text-sm text-muted-foreground">
+                  Tamanho ideal: 1200x1200 pixels (1:1)
+                </p>
                 <Button type="button" variant="outline" onClick={triggerFileUpload}>
                   <Upload className="mr-2 h-4 w-4" />
                   Selecionar Imagem

@@ -106,6 +106,9 @@ export const OfferFormDialog = ({ offer, open, onOpenChange, onSave }) => {
                 Imagem
               </Label>
               <div className="col-span-3 flex flex-col items-start gap-2">
+                <p className="text-sm text-muted-foreground">
+                  Tamanho ideal: 800x450 pixels (16:9)
+                </p>
                 <Button type="button" variant="outline" onClick={triggerFileUpload}>
                   <Upload className="mr-2 h-4 w-4" />
                   Selecionar Imagem
