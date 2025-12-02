@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import { ThemeProvider } from "./components/ThemeProvider";
 import Dashboard from "./pages/admin/Dashboard";
 import PostsPage from "./pages/admin/Posts";
+import OffersPage from "./pages/admin/Offers";
 import ReviewPage from "./pages/Review";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -57,6 +58,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <PostsPage />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/offers" 
+        element={
+          <ProtectedRoute>
+            <OffersPage />
           </ProtectedRoute>
         } 
       />

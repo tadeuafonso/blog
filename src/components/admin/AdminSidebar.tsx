@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Bell, Home, Package2, ShoppingCart, Users, FileText } from "lucide-react";
+import { Bell, Home, Package2, ShoppingCart, Users, FileText, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -41,6 +41,16 @@ const AdminSidebar = () => {
             >
               <FileText className="h-4 w-4" />
               Reviews
+            </Link>
+            <Link
+              to="/admin/offers"
+              className={cn(
+                "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+                pathname === "/admin/offers" && "bg-muted text-primary"
+              )}
+            >
+              <Tag className="h-4 w-4" />
+              Ofertas
             </Link>
             <Link
               to="#"

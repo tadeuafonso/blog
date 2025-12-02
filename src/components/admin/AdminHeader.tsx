@@ -7,7 +7,8 @@ import {
   Home,
   ShoppingCart,
   Users,
-  FileText
+  FileText,
+  Tag
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -75,6 +76,16 @@ const AdminHeader = () => {
             >
               <FileText className="h-5 w-5" />
               Reviews
+            </Link>
+            <Link
+              to="/admin/offers"
+              className={cn(
+                "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground",
+                pathname === "/admin/offers" && "bg-muted text-foreground"
+              )}
+            >
+              <Tag className="h-5 w-5" />
+              Ofertas
             </Link>
             <Link
               to="#"
