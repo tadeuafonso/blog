@@ -5,13 +5,57 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star, ThumbsUp, ThumbsDown } from "lucide-react";
 import { useParams, Link } from "react-router-dom";
-import { initialPostsData } from "../data/posts";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const fetchReview = async (id: string) => {
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};
 
 const ReviewPage = () => {
-  const { id } = useParams();
-  const review = initialPostsData.find(post => post.id === id);
+  const { id } = useParams<{ id: string }>();
 
-  if (!review) {
+  const { data: review, isLoading, isError } = useQuery({
+    queryKey: ['review', id],
+    queryFn: () => fetchReview(id!),
+    enabled: !!id,
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-1 py-12 md:py-20">
+          <div className="container">
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+              <div>
+                <Skeleton className="rounded-lg w-full aspect-square" />
+              </div>
+              <div className="flex flex-col justify-center space-y-4">
+                <Skeleton className="h-12 w-3/4" />
+                <Skeleton className="h-8 w-1/2" />
+                <Skeleton className="h-20 w-full" />
+                <Skeleton className="h-12 w-40" />
+              </div>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (isError || !review) {
     return (
       <div className="flex flex-col min-h-screen items-center justify-center text-center">
         <h1 className="text-4xl font-bold mb-4">Review não encontrado</h1>
@@ -31,7 +75,7 @@ const ReviewPage = () => {
           <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
             <div>
               <img
-                src={review.image}
+                src={review.image || 'https://placehold.co/600x600'}
                 alt={review.title}
                 className="rounded-lg object-cover w-full aspect-square"
               />
@@ -45,7 +89,7 @@ const ReviewPage = () => {
                   <span className="text-lg text-muted-foreground">/ 10</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {review.tags.map(tag => (
+                  {review.tags?.map(tag => (
                     <Badge key={tag} variant="secondary">{tag}</Badge>
                   ))}
                 </div>
@@ -61,32 +105,38 @@ const ReviewPage = () => {
             <h2 className="text-3xl font-bold mb-6 text-center">Análise Completa</h2>
             <Card>
               <CardContent className="p-6 grid gap-8">
-                <div>
-                  <h3 className="text-2xl font-semibold mb-4 flex items-center gap-2">
-                    <ThumbsUp className="w-6 h-6 text-green-500" />
-                    Pontos Positivos
-                  </h3>
-                  <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                    {review.pros.map((pro, index) => (
-                      <li key={index}>{pro}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-semibold mb-4 flex items-center gap-2">
-                    <ThumbsDown className="w-6 h-6 text-red-500" />
-                    Pontos Negativos
-                  </h3>
-                  <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                    {review.cons.map((con, index) => (
-                      <li key={index}>{con}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-semibold mb-4">Conclusão</h3>
-                  <p className="text-muted-foreground leading-relaxed">{review.conclusion}</p>
-                </div>
+                {review.pros && review.pros.length > 0 && (
+                  <div>
+                    <h3 className="text-2xl font-semibold mb-4 flex items-center gap-2">
+                      <ThumbsUp className="w-6 h-6 text-green-500" />
+                      Pontos Positivos
+                    </h3>
+                    <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+                      {review.pros.map((pro, index) => (
+                        <li key={index}>{pro}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {review.cons && review.cons.length > 0 && (
+                  <div>
+                    <h3 className="text-2xl font-semibold mb-4 flex items-center gap-2">
+                      <ThumbsDown className="w-6 h-6 text-red-500" />
+                      Pontos Negativos
+                    </h3>
+                    <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+                      {review.cons.map((con, index) => (
+                        <li key={index}>{con}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {review.conclusion && (
+                  <div>
+                    <h3 className="text-2xl font-semibold mb-4">Conclusão</h3>
+                    <p className="text-muted-foreground leading-relaxed">{review.conclusion}</p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
