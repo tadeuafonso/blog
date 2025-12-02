@@ -23,7 +23,7 @@ export const Header = () => {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-6">
           <a href="/" className="flex items-center gap-2">
-            <span className="text-xl font-bold" style={{ color: '#1E1E1E' }}>Qual</span>
+            <span className="text-xl font-bold text-foreground">Qual</span>
             <Check className="h-6 w-6" style={{ color: '#0057D9' }} />
           </a>
           {!isMobile && (

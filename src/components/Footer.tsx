@@ -7,7 +7,7 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <a href="/" className="flex items-center gap-2 mb-4">
-              <span className="text-xl font-bold" style={{ color: '#1E1E1E' }}>Qual</span>
+              <span className="text-xl font-bold text-foreground">Qual</span>
               <Check className="h-6 w-6" style={{ color: '#0057D9' }} />
             </a>
             <p className="text-sm text-muted-foreground">Compare. Escolha. Acerte.</p>
