@@ -7,10 +7,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { MoreHorizontal, PlusCircle } from "lucide-react";
 
 const mockPosts = [
-  { id: "1", title: "iPhone 15 Pro", rating: 9.8, status: "Published" },
-  { id: "2", title: "Galaxy Z Fold 5", rating: 9.5, status: "Published" },
-  { id: "3", title: "Pixel 8 Pro", rating: 9.2, status: "Draft" },
-  { id: "4", title: "Xiaomi 14", rating: 9.0, status: "Published" },
+  { id: "1", title: "iPhone 15 Pro", rating: 9.8, status: "Publicado" },
+  { id: "2", title: "Galaxy Z Fold 5", rating: 9.5, status: "Publicado" },
+  { id: "3", title: "Pixel 8 Pro", rating: 9.2, status: "Rascunho" },
+  { id: "4", title: "Xiaomi 14", rating: 9.0, status: "Publicado" },
 ];
 
 const PostsPage = () => {
@@ -21,29 +21,29 @@ const PostsPage = () => {
           <div>
             <h2 className="text-3xl font-bold tracking-tight">Reviews</h2>
             <p className="text-muted-foreground">
-              Manage your review posts here.
+              Gerencie suas postagens de review aqui.
             </p>
           </div>
           <div className="flex items-center space-x-2">
             <Button>
-              <PlusCircle className="mr-2 h-4 w-4" /> Add New Review
+              <PlusCircle className="mr-2 h-4 w-4" /> Adicionar Nova Review
             </Button>
           </div>
         </div>
         <Card>
           <CardHeader>
-            <CardTitle>Posts</CardTitle>
-            <CardDescription>A list of your recent review posts.</CardDescription>
+            <CardTitle>Postagens</CardTitle>
+            <CardDescription>Uma lista das suas postagens de review recentes.</CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Title</TableHead>
-                  <TableHead className="hidden md:table-cell">Rating</TableHead>
+                  <TableHead>Título</TableHead>
+                  <TableHead className="hidden md:table-cell">Avaliação</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>
-                    <span className="sr-only">Actions</span>
+                    <span className="sr-only">Ações</span>
                   </TableHead>
                 </TableRow>
               </TableHeader>
@@ -53,7 +53,7 @@ const PostsPage = () => {
                     <TableCell className="font-medium">{post.title}</TableCell>
                     <TableCell className="hidden md:table-cell">{post.rating} / 10</TableCell>
                     <TableCell>
-                      <Badge variant={post.status === "Published" ? "default" : "outline"}>
+                      <Badge variant={post.status === "Publicado" ? "default" : "outline"}>
                         {post.status}
                       </Badge>
                     </TableCell>
@@ -62,13 +62,13 @@ const PostsPage = () => {
                         <DropdownMenuTrigger asChild>
                           <Button aria-haspopup="true" size="icon" variant="ghost">
                             <MoreHorizontal className="h-4 w-4" />
-                            <span className="sr-only">Toggle menu</span>
+                            <span className="sr-only">Alternar menu</span>
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem>Edit</DropdownMenuItem>
-                          <DropdownMenuItem>Delete</DropdownMenuItem>
+                          <DropdownMenuLabel>Ações</DropdownMenuLabel>
+                          <DropdownMenuItem>Editar</DropdownMenuItem>
+                          <DropdownMenuItem>Excluir</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>

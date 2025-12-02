@@ -37,7 +37,7 @@ const AdminHeader = () => {
             className="shrink-0 md:hidden"
           >
             <Menu className="h-5 w-5" />
-            <span className="sr-only">Toggle navigation menu</span>
+            <span className="sr-only">Alternar menu de navegação</span>
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="flex flex-col">
@@ -47,7 +47,7 @@ const AdminHeader = () => {
               className="flex items-center gap-2 text-lg font-semibold"
             >
               <Package2 className="h-6 w-6" />
-              <span className="sr-only">Admin Panel</span>
+              <span className="sr-only">Painel do Admin</span>
             </Link>
             <Link
               to="/admin"
@@ -57,7 +57,7 @@ const AdminHeader = () => {
               )}
             >
               <Home className="h-5 w-5" />
-              Dashboard
+              Painel
             </Link>
             <Link
               to="/admin/posts"
@@ -74,14 +74,14 @@ const AdminHeader = () => {
               className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
             >
               <ShoppingCart className="h-5 w-5" />
-              Orders
+              Pedidos
             </Link>
             <Link
               to="#"
               className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
             >
               <Users className="h-5 w-5" />
-              Customers
+              Clientes
             </Link>
           </nav>
         </SheetContent>
@@ -92,7 +92,7 @@ const AdminHeader = () => {
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="Search products..."
+              placeholder="Buscar produtos..."
               className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
             />
           </div>
@@ -103,16 +103,16 @@ const AdminHeader = () => {
         <DropdownMenuTrigger asChild>
           <Button variant="secondary" size="icon" className="rounded-full">
             <CircleUser className="h-5 w-5" />
-            <span className="sr-only">Toggle user menu</span>
+            <span className="sr-only">Alternar menu do usuário</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Settings</DropdownMenuItem>
-          <DropdownMenuItem>Support</DropdownMenuItem>
+          <DropdownMenuItem>Configurações</DropdownMenuItem>
+          <DropdownMenuItem>Suporte</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Logout</DropdownMenuItem>
+          <DropdownMenuItem>Sair</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>

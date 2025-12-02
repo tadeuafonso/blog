@@ -14,11 +14,11 @@ const AdminSidebar = () => {
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link to="/" className="flex items-center gap-2 font-semibold">
             <Package2 className="h-6 w-6" />
-            <span className="">Admin Panel</span>
+            <span className="">Painel do Admin</span>
           </Link>
           <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
             <Bell className="h-4 w-4" />
-            <span className="sr-only">Toggle notifications</span>
+            <span className="sr-only">Alternar notificações</span>
           </Button>
         </div>
         <div className="flex-1">
@@ -31,7 +31,7 @@ const AdminSidebar = () => {
               )}
             >
               <Home className="h-4 w-4" />
-              Dashboard
+              Painel
             </Link>
             <Link
               to="/admin/posts"
@@ -48,29 +48,28 @@ const AdminSidebar = () => {
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
             >
               <ShoppingCart className="h-4 w-4" />
-              Orders
+              Pedidos
             </Link>
             <Link
               to="#"
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
             >
               <Users className="h-4 w-4" />
-              Customers
+              Clientes
             </Link>
           </nav>
         </div>
         <div className="mt-auto p-4">
           <Card>
             <CardHeader className="p-2 pt-0 md:p-4">
-              <CardTitle>Upgrade to Pro</CardTitle>
+              <CardTitle>Atualizar para Pro</CardTitle>
               <CardDescription>
-                Unlock all features and get unlimited access to our support
-                team.
+                Desbloqueie todos os recursos e tenha acesso ilimitado à nossa equipe de suporte.
               </CardDescription>
             </CardHeader>
             <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
               <Button size="sm" className="w-full">
-                Upgrade
+                Atualizar
               </Button>
             </CardContent>
           </Card>
