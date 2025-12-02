@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   CircleUser,
   Menu,
@@ -22,10 +22,17 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "../ThemeToggle";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
 
 const AdminHeader = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const pathname = location.pathname;
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate('/');
+  };
 
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
@@ -112,7 +119,7 @@ const AdminHeader = () => {
           <DropdownMenuItem>Configurações</DropdownMenuItem>
           <DropdownMenuItem>Suporte</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Sair</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleLogout}>Sair</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>
