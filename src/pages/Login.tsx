@@ -81,7 +81,7 @@ const Login = () => {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="login-password">Senha</Label>
-                    <Link to="#" className="text-sm text-primary hover:underline">
+                    <Link to="/forgot-password" className="text-sm text-primary hover:underline">
                       Esqueceu a senha?
                     </Link>
                   </div>
