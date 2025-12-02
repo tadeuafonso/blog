@@ -22,6 +22,7 @@ import { useEffect, useState, useRef } from "react";
 import { Upload } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { showError } from "@/utils/toast";
+import { MultiSelectCategories } from "./MultiSelectCategories";
 
 export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
   const [title, setTitle] = useState("");
@@ -29,7 +30,7 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
   const [status, setStatus] = useState("Rascunho");
   const [image, setImage] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
   const [summary, setSummary] = useState("");
   const [pros, setPros] = useState("");
   const [cons, setCons] = useState("");
@@ -44,7 +45,7 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
       setRating(post.rating?.toString().replace('.', ',') || "");
       setStatus(post.status || "Rascunho");
       setImage(post.image || "");
-      setTags(post.tags?.join(", ") || "");
+      setTags(post.tags || []);
       setSummary(post.summary || "");
       setPros(post.pros?.join("\n") || "");
       setCons(post.cons?.join("\n") || "");
@@ -56,7 +57,7 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
       setRating("");
       setStatus("Rascunho");
       setImage("");
-      setTags("");
+      setTags([]);
       setSummary("");
       setPros("");
       setCons("");
@@ -93,7 +94,7 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
       rating: parseFloat(rating.replace(',', '.')) || 0,
       status,
       image: imageUrl,
-      tags: tags.split(",").map(tag => tag.trim()).filter(Boolean),
+      tags: tags,
       summary,
       pros: pros.split("\n").filter(Boolean),
       cons: cons.split("\n").filter(Boolean),
@@ -209,17 +210,13 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
                 </SelectContent>
               </Select>
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="tags" className="text-right">
-                Tags
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label htmlFor="tags" className="text-right pt-2">
+                Categorias
               </Label>
-              <Input
-                id="tags"
-                value={tags}
-                onChange={(e) => setTags(e.target.value)}
-                className="col-span-3"
-                placeholder="Premium, iOS, Fotografia"
-              />
+              <div className="col-span-3">
+                <MultiSelectCategories selected={tags} onChange={setTags} />
+              </div>
             </div>
             <div className="grid grid-cols-4 items-start gap-4">
               <Label htmlFor="summary" className="text-right pt-2">
