@@ -88,6 +88,19 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
     fileInputRef.current?.click();
   };
 
+  const handleRatingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value;
+    const digitsOnly = rawValue.replace(/[^0-9]/g, "");
+    const limitedDigits = digitsOnly.slice(0, 2);
+
+    let formattedValue = limitedDigits;
+    if (limitedDigits.length === 2) {
+      formattedValue = `${limitedDigits[0]},${limitedDigits.slice(1)}`;
+    }
+    
+    setRating(formattedValue);
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-2xl">
@@ -140,7 +153,7 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
                 id="rating"
                 type="text"
                 value={rating}
-                onChange={(e) => setRating(e.target.value)}
+                onChange={handleRatingChange}
                 className="col-span-3"
                 placeholder="Ex: 9,8"
               />
