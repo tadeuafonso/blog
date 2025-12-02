@@ -1,4 +1,4 @@
-import { Check, Twitter, Instagram, Facebook } from "lucide-react";
+import { Twitter, Instagram, Facebook } from "lucide-react";
 
 export const Footer = () => {
   return (
@@ -7,8 +7,7 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <a href="/" className="flex items-center gap-2 mb-4">
-              <span className="text-xl font-bold text-foreground">Qual</span>
-              <Check className="h-6 w-6" style={{ color: '#0057D9' }} />
+              <span className="text-xl font-bold text-foreground">Qual Comprar?</span>
             </a>
             <p className="text-sm text-muted-foreground">Compare. Escolha. Acerte.</p>
           </div>
@@ -32,7 +31,7 @@ export const Footer = () => {
           </div>
         </div>
         <div className="border-t mt-8 pt-6 text-center text-sm text-muted-foreground">
-          <p>© 2024 Qual. Todos os direitos reservados.</p>
+          <p>© 2024 Qual Comprar?. Todos os direitos reservados.</p>
           <p className="mt-2">Este site participa de programas de afiliados. Ao comprar através de nossos links, podemos receber uma comissão sem custo adicional para você.</p>
         </div>
       </div>
