@@ -11,12 +11,12 @@ import {
 import { Link } from "react-router-dom";
 
 const reviews = [
-  { id: "1", name: "iPhone 15 Pro", rating: 9.8, image: "/placeholder.svg" },
-  { id: "2", name: "Galaxy Z Fold 5", rating: 9.5, image: "/placeholder.svg" },
-  { id: "3", name: "Pixel 8 Pro", rating: 9.2, image: "/placeholder.svg" },
-  { id: "4", name: "Xiaomi 14", rating: 9.0, image: "/placeholder.svg" },
-  { id: "5", name: "OnePlus 12", rating: 8.9, image: "/placeholder.svg" },
-  { id: "6", name: "Asus ROG Phone 8", rating: 9.1, image: "/placeholder.svg" },
+  { id: "1", name: "iPhone 15 Pro", rating: 9.8, image: "https://placehold.co/400x300/111111/FFFFFF?text=iPhone+15" },
+  { id: "2", name: "Galaxy Z Fold 5", rating: 9.5, image: "https://placehold.co/400x300/3b82f6/FFFFFF?text=Galaxy+Z" },
+  { id: "3", name: "Pixel 8 Pro", rating: 9.2, image: "https://placehold.co/400x300/16a34a/FFFFFF?text=Pixel+8" },
+  { id: "4", name: "Xiaomi 14", rating: 9.0, image: "https://placehold.co/400x300/ea580c/FFFFFF?text=Xiaomi+14" },
+  { id: "5", name: "OnePlus 12", rating: 8.9, image: "https://placehold.co/400x300/ef4444/FFFFFF?text=OnePlus+12" },
+  { id: "6", name: "Asus ROG Phone 8", rating: 9.1, image: "https://placehold.co/400x300/4f46e5/FFFFFF?text=ROG+8" },
 ];
 
 export const HighlightsSection = () => {

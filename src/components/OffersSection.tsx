@@ -3,10 +3,10 @@ import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 
 const offers = [
-  { name: "Redmi Note 13", price: "R$ 1.299", image: "/placeholder.svg", tag: "Oferta Relâmpago" },
-  { name: "Motorola Edge 40", price: "R$ 2.499", image: "/placeholder.svg" },
-  { name: "Poco F5", price: "R$ 2.199", image: "/placeholder.svg", tag: "Super Desconto" },
-  { name: "Realme 11 Pro+", price: "R$ 2.899", image: "/placeholder.svg" },
+  { name: "Redmi Note 13", price: "R$ 1.299", image: "https://placehold.co/400x300/7d28d9/FFFFFF?text=Redmi+Note+13", tag: "Oferta Relâmpago" },
+  { name: "Motorola Edge 40", price: "R$ 2.499", image: "https://placehold.co/400x300/1d4ed8/FFFFFF?text=Motorola+Edge" },
+  { name: "Poco F5", price: "R$ 2.199", image: "https://placehold.co/400x300/f59e0b/FFFFFF?text=Poco+F5", tag: "Super Desconto" },
+  { name: "Realme 11 Pro+", price: "R$ 2.899", image: "https://placehold.co/400x300/facc15/FFFFFF?text=Realme+11" },
 ];
 
 export const OffersSection = () => {

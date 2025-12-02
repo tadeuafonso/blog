@@ -20,7 +20,7 @@ export const PromoBanner = () => {
             alt="Smartphone em promoção"
             className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last lg:aspect-square"
             height="400"
-            src="/placeholder.svg"
+            src="https://placehold.co/1200x1200/000000/FFFFFF?text=Galaxy+S24"
             width="1200"
           />
         </div>

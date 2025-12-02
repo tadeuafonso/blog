@@ -11,7 +11,7 @@ const mockReview = {
   id: "1",
   name: "iPhone 15 Pro",
   rating: 9.8,
-  image: "/placeholder.svg",
+  image: "https://placehold.co/600x600/111111/FFFFFF?text=iPhone+15+Pro",
   tags: ["Premium", "iOS", "Fotografia"],
   summary: "O iPhone 15 Pro eleva a experiência a um novo patamar com seu design em titânio, o poderoso chip A17 Pro e um sistema de câmera que redefine a fotografia mobile. É a escolha definitiva para quem busca o máximo em performance e qualidade de imagem.",
   pros: [
