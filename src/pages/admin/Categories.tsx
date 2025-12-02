@@ -135,6 +135,7 @@ const CategoriesPage = () => {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead className="w-[80px]">Ordem</TableHead>
                   <TableHead>Ícone</TableHead>
                   <TableHead>Título</TableHead>
                   <TableHead className="hidden md:table-cell">Slug</TableHead>
@@ -147,6 +148,7 @@ const CategoriesPage = () => {
                 {isLoading ? (
                   Array.from({ length: 4 }).map((_, i) => (
                     <TableRow key={i}>
+                      <TableCell><Skeleton className="h-5 w-12" /></TableCell>
                       <TableCell><Skeleton className="h-6 w-6" /></TableCell>
                       <TableCell><Skeleton className="h-5 w-32" /></TableCell>
                       <TableCell className="hidden md:table-cell"><Skeleton className="h-5 w-24" /></TableCell>
@@ -158,6 +160,7 @@ const CategoriesPage = () => {
                     const IconComponent = iconMap[category.icon];
                     return (
                       <TableRow key={category.id}>
+                        <TableCell>{category.display_order}</TableCell>
                         <TableCell>
                           {IconComponent && <IconComponent className="h-5 w-5 text-muted-foreground" />}
                         </TableCell>

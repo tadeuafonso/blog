@@ -23,16 +23,19 @@ export const CategoryFormDialog = ({ category, open, onOpenChange, onSave }) => 
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [icon, setIcon] = useState("");
+  const [displayOrder, setDisplayOrder] = useState(0);
 
   useEffect(() => {
     if (category) {
       setTitle(category.title || "");
       setSlug(category.slug || "");
       setIcon(category.icon || "");
+      setDisplayOrder(category.display_order || 0);
     } else {
       setTitle("");
       setSlug("");
       setIcon("");
+      setDisplayOrder(0);
     }
   }, [category]);
 
@@ -42,6 +45,7 @@ export const CategoryFormDialog = ({ category, open, onOpenChange, onSave }) => 
       title,
       slug,
       icon,
+      display_order: displayOrder,
     });
   };
 
@@ -112,6 +116,19 @@ export const CategoryFormDialog = ({ category, open, onOpenChange, onSave }) => 
                 })}
               </SelectContent>
             </Select>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="displayOrder" className="text-right">
+              Ordem
+            </Label>
+            <Input
+              id="displayOrder"
+              type="number"
+              value={displayOrder}
+              onChange={(e) => setDisplayOrder(parseInt(e.target.value, 10) || 0)}
+              className="col-span-3"
+              placeholder="0"
+            />
           </div>
         </div>
         <DialogFooter>
