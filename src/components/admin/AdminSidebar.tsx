@@ -1,7 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Bell, Home, Package2, ShoppingCart, Users, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 const AdminSidebar = () => {
@@ -58,21 +57,6 @@ const AdminSidebar = () => {
               Clientes
             </Link>
           </nav>
-        </div>
-        <div className="mt-auto p-4">
-          <Card>
-            <CardHeader className="p-2 pt-0 md:p-4">
-              <CardTitle>Atualizar para Pro</CardTitle>
-              <CardDescription>
-                Desbloqueie todos os recursos e tenha acesso ilimitado à nossa equipe de suporte.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-              <Button size="sm" className="w-full">
-                Atualizar
-              </Button>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>
