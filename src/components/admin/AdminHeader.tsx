@@ -5,8 +5,6 @@ import {
   Package2,
   Search,
   Home,
-  ShoppingCart,
-  Users,
   FileText,
   Tag
 } from "lucide-react";
@@ -86,20 +84,6 @@ const AdminHeader = () => {
             >
               <Tag className="h-5 w-5" />
               Ofertas
-            </Link>
-            <Link
-              to="#"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-            >
-              <ShoppingCart className="h-5 w-5" />
-              Pedidos
-            </Link>
-            <Link
-              to="#"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-            >
-              <Users className="h-5 w-5" />
-              Clientes
             </Link>
           </nav>
         </SheetContent>
