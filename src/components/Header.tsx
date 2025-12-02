@@ -23,7 +23,7 @@ export const Header = () => {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-6">
           <a href="/" className="flex items-center gap-2">
-            <span className="text-xl font-bold text-foreground">Qual Comprar?</span>
+            <span className="text-xl font-bold text-foreground">ReviewTech</span>
           </a>
           {!isMobile && (
             <nav className="hidden md:flex items-center gap-6">

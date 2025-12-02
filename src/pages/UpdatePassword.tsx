@@ -31,7 +31,7 @@ const UpdatePassword = () => {
     <div className="flex flex-col justify-center items-center min-h-screen bg-background p-4">
        <div className="mb-8 text-center">
         <Link to="/" className="flex items-center justify-center gap-2">
-          <span className="text-3xl font-bold text-foreground">Qual Comprar?</span>
+          <span className="text-3xl font-bold text-foreground">ReviewTech</span>
         </Link>
       </div>
       <Card className="w-full max-w-sm">
