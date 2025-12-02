@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useEffect, useState, useRef } from "react";
+import { Upload } from "lucide-react";
 
 export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
   const [title, setTitle] = useState("");
@@ -106,30 +107,22 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
                 className="col-span-3"
               />
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="image" className="text-right">
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label htmlFor="image" className="text-right pt-2">
                 Imagem
               </Label>
-              <div className="col-span-3 flex flex-col gap-2">
-                <div className="flex gap-2">
-                  <Input
-                    id="image"
-                    value={image}
-                    onChange={(e) => setImage(e.target.value)}
-                    className="flex-grow"
-                    placeholder="Ou cole a URL aqui"
-                  />
-                  <Button type="button" variant="outline" onClick={triggerFileUpload}>
-                    Upload
-                  </Button>
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleImageUpload}
-                    className="hidden"
-                    accept="image/*"
-                  />
-                </div>
+              <div className="col-span-3 flex flex-col items-start gap-2">
+                <Button type="button" variant="outline" onClick={triggerFileUpload}>
+                  <Upload className="mr-2 h-4 w-4" />
+                  Selecionar Imagem
+                </Button>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleImageUpload}
+                  className="hidden"
+                  accept="image/*"
+                />
                 {image && (
                   <img
                     src={image}
