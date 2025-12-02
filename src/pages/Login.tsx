@@ -45,7 +45,7 @@ const Login = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-muted/40 p-4">
+    <div className="flex flex-col justify-center items-center min-h-screen bg-background p-4">
       <div className="mb-8 text-center">
         <Link to="/" className="flex items-center justify-center gap-2">
           <span className="text-3xl font-bold text-foreground">Qual</span>
