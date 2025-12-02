@@ -8,14 +8,15 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Link } from "react-router-dom";
 
 const reviews = [
-  { name: "iPhone 15 Pro", rating: 9.8, image: "/placeholder.svg" },
-  { name: "Galaxy Z Fold 5", rating: 9.5, image: "/placeholder.svg" },
-  { name: "Pixel 8 Pro", rating: 9.2, image: "/placeholder.svg" },
-  { name: "Xiaomi 14", rating: 9.0, image: "/placeholder.svg" },
-  { name: "OnePlus 12", rating: 8.9, image: "/placeholder.svg" },
-  { name: "Asus ROG Phone 8", rating: 9.1, image: "/placeholder.svg" },
+  { id: "1", name: "iPhone 15 Pro", rating: 9.8, image: "/placeholder.svg" },
+  { id: "2", name: "Galaxy Z Fold 5", rating: 9.5, image: "/placeholder.svg" },
+  { id: "3", name: "Pixel 8 Pro", rating: 9.2, image: "/placeholder.svg" },
+  { id: "4", name: "Xiaomi 14", rating: 9.0, image: "/placeholder.svg" },
+  { id: "5", name: "OnePlus 12", rating: 8.9, image: "/placeholder.svg" },
+  { id: "6", name: "Asus ROG Phone 8", rating: 9.1, image: "/placeholder.svg" },
 ];
 
 export const HighlightsSection = () => {
@@ -47,7 +48,9 @@ export const HighlightsSection = () => {
                       </div>
                     </CardContent>
                     <CardFooter className="p-4 pt-0">
-                      <Button className="w-full" style={{ backgroundColor: '#0057D9' }}>Ver Review</Button>
+                      <Button asChild className="w-full" style={{ backgroundColor: '#0057D9' }}>
+                        <Link to={`/review/${review.id}`}>Ver Review</Link>
+                      </Button>
                     </CardFooter>
                   </Card>
                 </div>
