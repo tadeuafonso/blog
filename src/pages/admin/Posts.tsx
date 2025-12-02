@@ -5,8 +5,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { MoreHorizontal, PlusCircle } from "lucide-react";
+import { useState } from "react";
+import { PostFormDialog } from "@/components/admin/PostFormDialog";
+import { DeleteConfirmationDialog } from "@/components/admin/DeleteConfirmationDialog";
+import { showSuccess } from "@/utils/toast";
 
-const mockPosts = [
+const initialPosts = [
   { id: "1", title: "iPhone 15 Pro", rating: 9.8, status: "Publicado" },
   { id: "2", title: "Galaxy Z Fold 5", rating: 9.5, status: "Publicado" },
   { id: "3", title: "Pixel 8 Pro", rating: 9.2, status: "Rascunho" },
@@ -14,6 +18,48 @@ const mockPosts = [
 ];
 
 const PostsPage = () => {
+  const [posts, setPosts] = useState(initialPosts);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
+
+  const handleAddNew = () => {
+    setSelectedPost(null);
+    setIsFormOpen(true);
+  };
+
+  const handleEdit = (post) => {
+    setSelectedPost(post);
+    setIsFormOpen(true);
+  };
+
+  const handleDelete = (post) => {
+    setSelectedPost(post);
+    setIsDeleteConfirmOpen(true);
+  };
+
+  const confirmDelete = () => {
+    setPosts(posts.filter((p) => p.id !== selectedPost.id));
+    showSuccess("Post excluído com sucesso!");
+    setIsDeleteConfirmOpen(false);
+    setSelectedPost(null);
+  };
+
+  const handleSave = (postData) => {
+    if (postData.id) {
+      // Edit existing post
+      setPosts(posts.map((p) => (p.id === postData.id ? postData : p)));
+      showSuccess("Post atualizado com sucesso!");
+    } else {
+      // Add new post
+      const newPost = { ...postData, id: (posts.length + 1).toString() };
+      setPosts([...posts, newPost]);
+      showSuccess("Post criado com sucesso!");
+    }
+    setIsFormOpen(false);
+    setSelectedPost(null);
+  };
+
   return (
     <AdminLayout>
       <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
@@ -25,7 +71,7 @@ const PostsPage = () => {
             </p>
           </div>
           <div className="flex items-center space-x-2">
-            <Button>
+            <Button onClick={handleAddNew}>
               <PlusCircle className="mr-2 h-4 w-4" /> Adicionar Nova Review
             </Button>
           </div>
@@ -48,7 +94,7 @@ const PostsPage = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {mockPosts.map((post) => (
+                {posts.map((post) => (
                   <TableRow key={post.id}>
                     <TableCell className="font-medium">{post.title}</TableCell>
                     <TableCell className="hidden md:table-cell">{post.rating} / 10</TableCell>
@@ -67,8 +113,8 @@ const PostsPage = () => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Ações</DropdownMenuLabel>
-                          <DropdownMenuItem>Editar</DropdownMenuItem>
-                          <DropdownMenuItem>Excluir</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleEdit(post)}>Editar</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDelete(post)}>Excluir</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -79,6 +125,17 @@ const PostsPage = () => {
           </CardContent>
         </Card>
       </div>
+      <PostFormDialog
+        post={selectedPost}
+        open={isFormOpen}
+        onOpenChange={setIsFormOpen}
+        onSave={handleSave}
+      />
+      <DeleteConfirmationDialog
+        open={isDeleteConfirmOpen}
+        onOpenChange={setIsDeleteConfirmOpen}
+        onConfirm={confirmDelete}
+      />
     </AdminLayout>
   );
 };
