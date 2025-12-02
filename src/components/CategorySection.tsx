@@ -1,28 +1,55 @@
 import { Card, CardTitle } from "./ui/card";
-import { DollarSign, Camera, Gamepad2, BatteryCharging } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Skeleton } from "./ui/skeleton";
+import { iconMap } from "@/components/icons";
 
-const categories = [
-  { title: "Melhores até R$ 1.000", slug: "ate-1000", icon: <DollarSign className="w-8 h-8" /> },
-  { title: "Melhores para fotos", slug: "fotos", icon: <Camera className="w-8 h-8" /> },
-  { title: "Top desempenho Gamers", slug: "gamers", icon: <Gamepad2 className="w-8 h-8" /> },
-  { title: "Bateria para o dia todo", slug: "bateria", icon: <BatteryCharging className="w-8 h-8" /> },
-];
+const fetchCategories = async () => {
+  const { data, error } = await supabase
+    .from('categories')
+    .select('*')
+    .order('display_order', { ascending: true });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};
 
 export const CategorySection = () => {
+  const { data: categories, isLoading } = useQuery({
+    queryKey: ['homepage_categories'],
+    queryFn: fetchCategories,
+  });
+
   return (
     <section className="py-12 md:py-20 bg-muted/40">
       <div className="container">
         <h2 className="text-3xl font-bold tracking-tighter text-center mb-8">Qual Comprar?</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {categories.map((category) => (
-            <Link to={`/category/${category.slug}`} key={category.title} className="block">
-              <Card className="flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow h-full">
-                <div className="mb-4 text-primary" style={{ color: '#0057D9' }}>{category.icon}</div>
-                <CardTitle>{category.title}</CardTitle>
+          {isLoading ? (
+            Array.from({ length: 4 }).map((_, index) => (
+              <Card key={index} className="flex flex-col items-center justify-center text-center p-6 h-full">
+                <Skeleton className="h-8 w-8 mb-4 rounded-md" />
+                <Skeleton className="h-6 w-3/4" />
               </Card>
-            </Link>
-          ))}
+            ))
+          ) : (
+            categories?.map((category) => {
+              const IconComponent = iconMap[category.icon];
+              return (
+                <Link to={`/category/${category.slug}`} key={category.id} className="block">
+                  <Card className="flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow h-full">
+                    <div className="mb-4 text-primary" style={{ color: '#0057D9' }}>
+                      {IconComponent ? <IconComponent className="w-8 h-8" /> : null}
+                    </div>
+                    <CardTitle>{category.title}</CardTitle>
+                  </Card>
+                </Link>
+              );
+            })
+          )}
         </div>
       </div>
     </section>

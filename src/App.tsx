@@ -9,6 +9,7 @@ import { ThemeProvider } from "./components/ThemeProvider";
 import Dashboard from "./pages/admin/Dashboard";
 import PostsPage from "./pages/admin/Posts";
 import OffersPage from "./pages/admin/Offers";
+import CategoriesPage from "./pages/admin/Categories";
 import ReviewPage from "./pages/Review";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -66,6 +67,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <OffersPage />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/categories" 
+        element={
+          <ProtectedRoute>
+            <CategoriesPage />
           </ProtectedRoute>
         } 
       />

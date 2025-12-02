@@ -8,11 +8,14 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const categoryTitles: { [key: string]: string } = {
-  'ate-1000': "Melhores até R$ 1.000",
-  'fotos': "Melhores para fotos",
-  'gamers': "Top desempenho Gamers",
-  'bateria': "Bateria para o dia todo",
+const fetchCategoryDetails = async (slug: string) => {
+  const { data, error } = await supabase
+    .from('categories')
+    .select('title')
+    .eq('slug', slug)
+    .single();
+  if (error) throw new Error("Categoria não encontrada");
+  return data;
 };
 
 const fetchPostsByCategory = async (slug: string) => {
@@ -30,25 +33,41 @@ const fetchPostsByCategory = async (slug: string) => {
 
 const CategoryPage = () => {
   const { slug } = useParams<{ slug: string }>();
-  const categoryTitle = slug ? categoryTitles[slug] || "Categoria" : "Categoria";
 
-  const { data: posts, isLoading, isError } = useQuery({
-    queryKey: ['posts', slug],
+  const { data: category, isLoading: isLoadingCategory } = useQuery({
+    queryKey: ['category_details', slug],
+    queryFn: () => fetchCategoryDetails(slug!),
+    enabled: !!slug,
+  });
+
+  const { data: posts, isLoading: isLoadingPosts, isError } = useQuery({
+    queryKey: ['posts_by_category', slug],
     queryFn: () => fetchPostsByCategory(slug!),
     enabled: !!slug,
   });
+
+  const categoryTitle = category?.title || "Carregando Categoria...";
 
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-1 py-12 md:py-20">
         <div className="container">
-          <h1 className="text-4xl font-bold tracking-tighter text-center mb-2">{categoryTitle}</h1>
-          <p className="text-lg text-muted-foreground text-center mb-12">
-            Confira nossa seleção de reviews para esta categoria.
-          </p>
+          {isLoadingCategory ? (
+            <div className="text-center mb-12">
+              <Skeleton className="h-10 w-1/2 mx-auto mb-2" />
+              <Skeleton className="h-6 w-3/4 mx-auto" />
+            </div>
+          ) : (
+            <>
+              <h1 className="text-4xl font-bold tracking-tighter text-center mb-2">{categoryTitle}</h1>
+              <p className="text-lg text-muted-foreground text-center mb-12">
+                Confira nossa seleção de reviews para esta categoria.
+              </p>
+            </>
+          )}
           
-          {isLoading ? (
+          {isLoadingPosts ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {Array.from({ length: 4 }).map((_, index) => (
                 <Card key={index}>

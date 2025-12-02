@@ -6,7 +6,8 @@ import {
   Home,
   FileText,
   Tag,
-  Check
+  Check,
+  Layers
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -84,6 +85,16 @@ const AdminHeader = () => {
             >
               <Tag className="h-5 w-5" />
               Ofertas
+            </Link>
+            <Link
+              to="/admin/categories"
+              className={cn(
+                "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground",
+                pathname === "/admin/categories" && "bg-muted text-foreground"
+              )}
+            >
+              <Layers className="h-5 w-5" />
+              Categorias
             </Link>
           </nav>
         </SheetContent>
