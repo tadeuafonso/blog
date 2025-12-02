@@ -10,6 +10,7 @@ import Dashboard from "./pages/admin/Dashboard";
 import PostsPage from "./pages/admin/Posts";
 import OffersPage from "./pages/admin/Offers";
 import CategoriesPage from "./pages/admin/Categories";
+import BannersPage from "./pages/admin/Banners";
 import ReviewPage from "./pages/Review";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -75,6 +76,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <CategoriesPage />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/banners" 
+        element={
+          <ProtectedRoute>
+            <BannersPage />
           </ProtectedRoute>
         } 
       />

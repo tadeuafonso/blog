@@ -1,30 +1,128 @@
 import { Button } from "./ui/button";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Skeleton } from "./ui/skeleton";
+
+const fetchBanners = async () => {
+  const { data, error } = await supabase
+    .from('banners')
+    .select('*')
+    .eq('is_active', true)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+};
 
 export const PromoBanner = () => {
-  return (
-    <section className="w-full py-12 md:py-20 lg:py-24" style={{ backgroundColor: '#0057D9' }}>
-      <div className="container px-4 md:px-6">
-        <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
-          <div className="flex flex-col justify-center space-y-4 text-white">
-            <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                Galaxy S24 Ultra com 30% OFF
-              </h1>
-              <p className="max-w-[600px] md:text-xl">
-                Aproveite a oferta imperdível no smartphone mais poderoso do ano. Câmera, desempenho e bateria de outro nível.
-              </p>
+  const { data: banners, isLoading } = useQuery({
+    queryKey: ['promo_banners'],
+    queryFn: fetchBanners,
+  });
+
+  if (isLoading) {
+    return (
+      <section className="w-full py-12 md:py-20 lg:py-24 bg-primary">
+        <div className="container px-4 md:px-6">
+          <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
+            <div className="flex flex-col justify-center space-y-4">
+              <Skeleton className="h-12 w-3/4" />
+              <Skeleton className="h-8 w-full" />
+              <Skeleton className="h-6 w-1/2" />
+              <Skeleton className="h-12 w-40" />
             </div>
-            <Button variant="secondary" className="w-fit">Ver Oferta</Button>
+            <Skeleton className="mx-auto aspect-video overflow-hidden rounded-xl sm:w-full lg:order-last lg:aspect-square" />
           </div>
-          <img
-            alt="Smartphone em promoção"
-            className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last lg:aspect-square"
-            height="400"
-            src="https://placehold.co/1200x1200/000000/FFFFFF?text=Galaxy+S24"
-            width="1200"
-          />
         </div>
-      </div>
+      </section>
+    );
+  }
+
+  if (!banners || banners.length === 0) {
+    return null; // Não renderiza nada se não houver banners
+  }
+
+  return (
+    <section className="w-full" style={{ backgroundColor: '#0057D9' }}>
+      <Carousel
+        opts={{
+          align: "start",
+          loop: true,
+        }}
+        className="w-full"
+      >
+        <CarouselContent>
+          {banners.map((banner) => (
+            <CarouselItem key={banner.id}>
+              <div className="py-12 md:py-20 lg:py-24">
+                <div className="container px-4 md:px-6">
+                  <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
+                    <div className="flex flex-col justify-center space-y-4 text-white">
+                      <div className="space-y-2">
+                        <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+                          {banner.title}
+                        </h1>
+                        <p className="max-w-[600px] md:text-xl">
+                          {banner.description}
+                        </p>
+                      </div>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="secondary" className="w-fit">Ver Oferta</Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          {banner.affiliate_link_amazon && (
+                            <DropdownMenuItem asChild>
+                              <a href={banner.affiliate_link_amazon} target="_blank" rel="noopener noreferrer" className="cursor-pointer">
+                                Comprar na Amazon
+                              </a>
+                            </DropdownMenuItem>
+                          )}
+                          {banner.affiliate_link_ml && (
+                            <DropdownMenuItem asChild>
+                              <a href={banner.affiliate_link_ml} target="_blank" rel="noopener noreferrer" className="cursor-pointer">
+                                Comprar no Mercado Livre
+                              </a>
+                            </DropdownMenuItem>
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                    <img
+                      alt={banner.title}
+                      className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last lg:aspect-square"
+                      height="400"
+                      src={banner.image_url || "https://placehold.co/1200x1200"}
+                      width="1200"
+                    />
+                  </div>
+                </div>
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        {banners.length > 1 && (
+          <>
+            <CarouselPrevious className="hidden sm:flex left-4" />
+            <CarouselNext className="hidden sm:flex right-4" />
+          </>
+        )}
+      </Carousel>
     </section>
   );
 };
