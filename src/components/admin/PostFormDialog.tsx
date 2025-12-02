@@ -31,6 +31,8 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
   const [pros, setPros] = useState("");
   const [cons, setCons] = useState("");
   const [conclusion, setConclusion] = useState("");
+  const [affiliateLinkAmazon, setAffiliateLinkAmazon] = useState("");
+  const [affiliateLinkMl, setAffiliateLinkMl] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -44,6 +46,8 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
       setPros(post.pros?.join("\n") || "");
       setCons(post.cons?.join("\n") || "");
       setConclusion(post.conclusion || "");
+      setAffiliateLinkAmazon(post.affiliate_link_amazon || "");
+      setAffiliateLinkMl(post.affiliate_link_ml || "");
     } else {
       // Reset form for new post
       setTitle("");
@@ -55,6 +59,8 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
       setPros("");
       setCons("");
       setConclusion("");
+      setAffiliateLinkAmazon("");
+      setAffiliateLinkMl("");
     }
   }, [post]);
 
@@ -70,6 +76,8 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
       pros: pros.split("\n").filter(Boolean),
       cons: cons.split("\n").filter(Boolean),
       conclusion,
+      affiliate_link_amazon: affiliateLinkAmazon,
+      affiliate_link_ml: affiliateLinkMl,
     });
   };
 
@@ -236,6 +244,30 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
                 onChange={(e) => setConclusion(e.target.value)}
                 className="col-span-3"
                 rows={4}
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="affiliateLinkAmazon" className="text-right">
+                Link Amazon
+              </Label>
+              <Input
+                id="affiliateLinkAmazon"
+                value={affiliateLinkAmazon}
+                onChange={(e) => setAffiliateLinkAmazon(e.target.value)}
+                className="col-span-3"
+                placeholder="Link de afiliado da Amazon"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="affiliateLinkMl" className="text-right">
+                Link Mercado Livre
+              </Label>
+              <Input
+                id="affiliateLinkMl"
+                value={affiliateLinkMl}
+                onChange={(e) => setAffiliateLinkMl(e.target.value)}
+                className="col-span-3"
+                placeholder="Link de afiliado do Mercado Livre"
               />
             </div>
           </div>

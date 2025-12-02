@@ -8,6 +8,12 @@ import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const fetchReview = async (id: string) => {
   const { data, error } = await supabase
@@ -67,6 +73,8 @@ const ReviewPage = () => {
     );
   }
 
+  const hasAffiliateLinks = review.affiliate_link_amazon || review.affiliate_link_ml;
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -95,9 +103,31 @@ const ReviewPage = () => {
                 </div>
               </div>
               <p className="text-lg text-muted-foreground mb-6">{review.summary}</p>
-              <Button size="lg" className="w-full md:w-fit" style={{ backgroundColor: '#0057D9' }}>
-                Ver Ofertas e Comprar
-              </Button>
+              {hasAffiliateLinks && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button size="lg" className="w-full md:w-fit" style={{ backgroundColor: '#0057D9' }}>
+                      Ver Ofertas e Comprar
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    {review.affiliate_link_amazon && (
+                      <DropdownMenuItem asChild>
+                        <a href={review.affiliate_link_amazon} target="_blank" rel="noopener noreferrer" className="cursor-pointer">
+                          Comprar na Amazon
+                        </a>
+                      </DropdownMenuItem>
+                    )}
+                    {review.affiliate_link_ml && (
+                      <DropdownMenuItem asChild>
+                        <a href={review.affiliate_link_ml} target="_blank" rel="noopener noreferrer" className="cursor-pointer">
+                          Comprar no Mercado Livre
+                        </a>
+                      </DropdownMenuItem>
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
             </div>
           </div>
 
