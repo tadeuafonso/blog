@@ -95,7 +95,11 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
 
     let formattedValue = limitedDigits;
     if (limitedDigits.length === 2) {
-      formattedValue = `${limitedDigits[0]},${limitedDigits.slice(1)}`;
+      if (limitedDigits === "10") {
+        formattedValue = "10";
+      } else {
+        formattedValue = `${limitedDigits[0]},${limitedDigits.slice(1)}`;
+      }
     }
     
     setRating(formattedValue);
