@@ -16,6 +16,7 @@ import { SessionProvider } from "./contexts/SessionContext";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 import { useEffect } from "react";
 import { supabase } from "./integrations/supabase/client";
+import CategoryPage from "./pages/Category";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<Index />} />
       <Route path="/review/:id" element={<ReviewPage />} />
+      <Route path="/category/:slug" element={<CategoryPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/update-password" element={<UpdatePassword />} />
