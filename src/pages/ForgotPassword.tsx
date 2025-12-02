@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { showSuccess, showError } from '@/utils/toast';
-import { BadgeCheck } from 'lucide-react';
+import { Check } from 'lucide-react';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -30,8 +30,8 @@ const ForgotPassword = () => {
     <div className="flex flex-col justify-center items-center min-h-screen bg-background p-4">
       <div className="mb-8 text-center">
         <Link to="/" className="flex items-center justify-center gap-2">
-          <BadgeCheck className="h-8 w-8 text-primary" />
-          <span className="text-3xl font-bold text-foreground">Qual Comprar?</span>
+          <Check className="h-8 w-8 text-primary" />
+          <span className="text-3xl font-bold text-foreground">Qual</span>
         </Link>
       </div>
       <Card className="w-full max-w-sm">

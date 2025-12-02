@@ -6,7 +6,7 @@ import {
   Home,
   FileText,
   Tag,
-  BadgeCheck
+  Check
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -52,8 +52,8 @@ const AdminHeader = () => {
               to="/"
               className="flex items-center gap-2 text-lg font-semibold mb-4"
             >
-              <BadgeCheck className="h-6 w-6 text-primary" />
-              <span className="">Qual Comprar?</span>
+              <Check className="h-6 w-6 text-primary" />
+              <span className="">Qual</span>
             </Link>
             <Link
               to="/admin"
