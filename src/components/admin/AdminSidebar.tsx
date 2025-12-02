@@ -1,9 +1,13 @@
-import { Link } from "react-router-dom";
-import { Bell, Home, Package, Package2, ShoppingCart, Users } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { Bell, Home, Package2, ShoppingCart, Users, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 const AdminSidebar = () => {
+  const location = useLocation();
+  const pathname = location.pathname;
+
   return (
     <div className="hidden border-r bg-muted/40 md:block">
       <div className="flex h-full max-h-screen flex-col gap-2">
@@ -21,27 +25,33 @@ const AdminSidebar = () => {
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
             <Link
               to="/admin"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+              className={cn(
+                "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+                pathname === "/admin" && "bg-muted text-primary"
+              )}
             >
               <Home className="h-4 w-4" />
               Dashboard
             </Link>
             <Link
-              to="/admin"
+              to="/admin/posts"
+              className={cn(
+                "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+                pathname === "/admin/posts" && "bg-muted text-primary"
+              )}
+            >
+              <FileText className="h-4 w-4" />
+              Reviews
+            </Link>
+            <Link
+              to="#"
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
             >
               <ShoppingCart className="h-4 w-4" />
               Orders
             </Link>
             <Link
-              to="/admin"
-              className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
-            >
-              <Package className="h-4 w-4" />
-              Products{' '}
-            </Link>
-            <Link
-              to="/admin"
+              to="#"
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
             >
               <Users className="h-4 w-4" />

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   CircleUser,
   Menu,
@@ -6,8 +6,8 @@ import {
   Search,
   Home,
   ShoppingCart,
-  Package,
-  Users
+  Users,
+  FileText
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,8 +21,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "../ThemeToggle";
+import { cn } from "@/lib/utils";
 
 const AdminHeader = () => {
+  const location = useLocation();
+  const pathname = location.pathname;
+
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
       <Sheet>
@@ -47,27 +51,33 @@ const AdminHeader = () => {
             </Link>
             <Link
               to="/admin"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+              className={cn(
+                "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground",
+                pathname === "/admin" && "bg-muted text-foreground"
+              )}
             >
               <Home className="h-5 w-5" />
               Dashboard
             </Link>
             <Link
-              to="/admin"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
+              to="/admin/posts"
+              className={cn(
+                "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground",
+                pathname === "/admin/posts" && "bg-muted text-foreground"
+              )}
+            >
+              <FileText className="h-5 w-5" />
+              Reviews
+            </Link>
+            <Link
+              to="#"
+              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
             >
               <ShoppingCart className="h-5 w-5" />
               Orders
             </Link>
             <Link
-              to="/admin"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-            >
-              <Package className="h-5 w-5" />
-              Products
-            </Link>
-            <Link
-              to="/admin"
+              to="#"
               className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
             >
               <Users className="h-5 w-5" />
