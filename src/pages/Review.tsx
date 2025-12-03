@@ -14,6 +14,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SEO } from "@/components/SEO";
 
 const fetchReview = async (id: string) => {
   const { data, error } = await supabase
@@ -63,127 +64,164 @@ const ReviewPage = () => {
 
   if (isError || !review) {
     return (
-      <div className="flex flex-col min-h-screen items-center justify-center text-center">
-        <h1 className="text-4xl font-bold mb-4">Review não encontrado</h1>
-        <p className="text-muted-foreground mb-8">Não conseguimos encontrar a review que você está procurando.</p>
-        <Button asChild>
-          <Link to="/">Voltar para a página inicial</Link>
-        </Button>
-      </div>
+      <>
+        <SEO title="Review não encontrado" description="Não conseguimos encontrar a review que você está procurando." />
+        <div className="flex flex-col min-h-screen items-center justify-center text-center">
+          <h1 className="text-4xl font-bold mb-4">Review não encontrado</h1>
+          <p className="text-muted-foreground mb-8">Não conseguimos encontrar a review que você está procurando.</p>
+          <Button asChild>
+            <Link to="/">Voltar para a página inicial</Link>
+          </Button>
+        </div>
+      </>
     );
   }
 
   const hasAffiliateLinks = review.affiliate_link_amazon || review.affiliate_link_ml;
 
-  return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-1 py-12 md:py-20">
-        <div className="container">
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-            <div>
-              <img
-                src={review.image || 'https://placehold.co/600x600'}
-                alt={review.title}
-                className="rounded-lg object-cover w-full aspect-square"
-              />
-            </div>
-            <div className="flex flex-col justify-center">
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4">{review.title}</h1>
-              <div className="flex items-center gap-4 mb-4">
-                <div className="flex items-center gap-1 text-2xl font-bold">
-                  <Star className="w-7 h-7 fill-yellow-400 text-yellow-400" />
-                  <span>{review.rating}</span>
-                  <span className="text-lg text-muted-foreground">/ 10</span>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {review.tags?.map(tag => (
-                    <Badge key={tag} variant="secondary">{tag}</Badge>
-                  ))}
-                </div>
-              </div>
-              <p className="text-lg text-muted-foreground mb-6">{review.summary}</p>
-              {hasAffiliateLinks && (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button size="lg" className="w-full md:w-fit" style={{ backgroundColor: '#0057D9' }}>
-                      Ver Ofertas e Comprar
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    {review.affiliate_link_amazon && (
-                      <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
-                        <a 
-                          href={review.affiliate_link_amazon} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="cursor-pointer w-full px-2 py-1.5 text-sm font-semibold rounded-sm transition-colors bg-amazon text-amazon-foreground hover:bg-amazon/90 focus:bg-amazon/90 focus:outline-none"
-                        >
-                          Comprar na Amazon
-                        </a>
-                      </DropdownMenuItem>
-                    )}
-                    {review.affiliate_link_ml && (
-                      <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
-                        <a 
-                          href={review.affiliate_link_ml} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="cursor-pointer w-full px-2 py-1.5 text-sm font-semibold rounded-sm transition-colors bg-mercadolivre text-mercadolivre-foreground hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none"
-                        >
-                          Comprar no Mercado Livre
-                        </a>
-                      </DropdownMenuItem>
-                    )}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              )}
-            </div>
-          </div>
+  const schemaMarkup = {
+    "@context": "https://schema.org",
+    "@type": "Review",
+    "itemReviewed": {
+      "@type": "Product",
+      "name": review.title,
+      "image": review.image || 'https://placehold.co/600x600',
+      "description": review.summary,
+    },
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": review.rating,
+      "bestRating": "10"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Qual"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Qual"
+    }
+  };
 
-          <div className="mt-16">
-            <h2 className="text-3xl font-bold mb-6 text-center">Análise Completa</h2>
-            <Card>
-              <CardContent className="p-6 grid gap-8">
-                {review.pros && review.pros.length > 0 && (
-                  <div>
-                    <h3 className="text-2xl font-semibold mb-4 flex items-center gap-2">
-                      <ThumbsUp className="w-6 h-6 text-green-500" />
-                      Pontos Positivos
-                    </h3>
-                    <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                      {review.pros.map((pro, index) => (
-                        <li key={index}>{pro}</li>
-                      ))}
-                    </ul>
+  return (
+    <>
+      <SEO 
+        title={review.title}
+        description={review.summary || `Análise completa do ${review.title}. Veja os prós, contras e nossa conclusão.`}
+        imageUrl={review.image}
+        url={`/review/${review.id}`}
+        type="article"
+        schemaMarkup={schemaMarkup}
+      />
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-1 py-12 md:py-20">
+          <div className="container">
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+              <div>
+                <img
+                  src={review.image || 'https://placehold.co/600x600'}
+                  alt={review.title}
+                  className="rounded-lg object-cover w-full aspect-square"
+                />
+              </div>
+              <div className="flex flex-col justify-center">
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4">{review.title}</h1>
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="flex items-center gap-1 text-2xl font-bold">
+                    <Star className="w-7 h-7 fill-yellow-400 text-yellow-400" />
+                    <span>{review.rating}</span>
+                    <span className="text-lg text-muted-foreground">/ 10</span>
                   </div>
-                )}
-                {review.cons && review.cons.length > 0 && (
-                  <div>
-                    <h3 className="text-2xl font-semibold mb-4 flex items-center gap-2">
-                      <ThumbsDown className="w-6 h-6 text-red-500" />
-                      Pontos Negativos
-                    </h3>
-                    <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                      {review.cons.map((con, index) => (
-                        <li key={index}>{con}</li>
-                      ))}
-                    </ul>
+                  <div className="flex flex-wrap gap-2">
+                    {review.tags?.map(tag => (
+                      <Badge key={tag} variant="secondary">{tag}</Badge>
+                    ))}
                   </div>
+                </div>
+                <p className="text-lg text-muted-foreground mb-6">{review.summary}</p>
+                {hasAffiliateLinks && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button size="lg" className="w-full md:w-fit" style={{ backgroundColor: '#0057D9' }}>
+                        Ver Ofertas e Comprar
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      {review.affiliate_link_amazon && (
+                        <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
+                          <a 
+                            href={review.affiliate_link_amazon} 
+                            target="_blank" 
+                            rel="noopener noreferrer sponsored" 
+                            className="cursor-pointer w-full px-2 py-1.5 text-sm font-semibold rounded-sm transition-colors bg-amazon text-amazon-foreground hover:bg-amazon/90 focus:bg-amazon/90 focus:outline-none"
+                          >
+                            Comprar na Amazon
+                          </a>
+                        </DropdownMenuItem>
+                      )}
+                      {review.affiliate_link_ml && (
+                        <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
+                          <a 
+                            href={review.affiliate_link_ml} 
+                            target="_blank" 
+                            rel="noopener noreferrer sponsored" 
+                            className="cursor-pointer w-full px-2 py-1.5 text-sm font-semibold rounded-sm transition-colors bg-mercadolivre text-mercadolivre-foreground hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none"
+                          >
+                            Comprar no Mercado Livre
+                          </a>
+                        </DropdownMenuItem>
+                      )}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 )}
-                {review.conclusion && (
-                  <div>
-                    <h3 className="text-2xl font-semibold mb-4">Conclusão</h3>
-                    <p className="text-muted-foreground leading-relaxed">{review.conclusion}</p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
+
+            <div className="mt-16">
+              <h2 className="text-3xl font-bold mb-6 text-center">Análise Completa</h2>
+              <Card>
+                <CardContent className="p-6 grid gap-8">
+                  {review.pros && review.pros.length > 0 && (
+                    <div>
+                      <h3 className="text-2xl font-semibold mb-4 flex items-center gap-2">
+                        <ThumbsUp className="w-6 h-6 text-green-500" />
+                        Pontos Positivos
+                      </h3>
+                      <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+                        {review.pros.map((pro, index) => (
+                          <li key={index}>{pro}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {review.cons && review.cons.length > 0 && (
+                    <div>
+                      <h3 className="text-2xl font-semibold mb-4 flex items-center gap-2">
+                        <ThumbsDown className="w-6 h-6 text-red-500" />
+                        Pontos Negativos
+                      </h3>
+                      <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+                        {review.cons.map((con, index) => (
+                          <li key={index}>{con}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {review.conclusion && (
+                    <div>
+                      <h3 className="text-2xl font-semibold mb-4">Conclusão</h3>
+                      <p className="text-muted-foreground leading-relaxed">{review.conclusion}</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
           </div>
-        </div>
-      </main>
-      <Footer />
-    </div>
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 };
 

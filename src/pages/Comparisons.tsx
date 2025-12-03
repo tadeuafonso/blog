@@ -27,6 +27,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SEO } from "@/components/SEO";
 
 // Tipos
 interface PostSummary {
@@ -129,14 +130,14 @@ const AffiliateLinksButton = ({ product }: { product: PostDetails }) => {
       <DropdownMenuContent>
         {product.affiliate_link_amazon && (
           <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
-            <a href={product.affiliate_link_amazon} target="_blank" rel="noopener noreferrer" className="cursor-pointer w-full px-2 py-1.5 text-sm font-semibold rounded-sm transition-colors bg-amazon text-amazon-foreground hover:bg-amazon/90 focus:bg-amazon/90 focus:outline-none">
+            <a href={product.affiliate_link_amazon} target="_blank" rel="noopener noreferrer sponsored" className="cursor-pointer w-full px-2 py-1.5 text-sm font-semibold rounded-sm transition-colors bg-amazon text-amazon-foreground hover:bg-amazon/90 focus:bg-amazon/90 focus:outline-none">
               Comprar na Amazon
             </a>
           </DropdownMenuItem>
         )}
         {product.affiliate_link_ml && (
           <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
-            <a href={product.affiliate_link_ml} target="_blank" rel="noopener noreferrer" className="cursor-pointer w-full px-2 py-1.5 text-sm font-semibold rounded-sm transition-colors bg-mercadolivre text-mercadolivre-foreground hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none">
+            <a href={product.affiliate_link_ml} target="_blank" rel="noopener noreferrer sponsored" className="cursor-pointer w-full px-2 py-1.5 text-sm font-semibold rounded-sm transition-colors bg-mercadolivre text-mercadolivre-foreground hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none">
               Comprar no Mercado Livre
             </a>
           </DropdownMenuItem>
@@ -169,150 +170,157 @@ const ComparisonsPage = () => {
   });
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-1 py-12 md:py-20">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold tracking-tighter mb-2">Compare Lado a Lado</h1>
-            <p className="text-lg text-muted-foreground">
-              Selecione dois produtos para ver uma análise comparativa detalhada.
-            </p>
-          </div>
+    <>
+      <SEO 
+        title="Compare Produtos Lado a Lado"
+        description="Selecione dois produtos para ver uma análise comparativa detalhada e decidir qual é o melhor para você."
+        url="/comparisons"
+      />
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-1 py-12 md:py-20">
+          <div className="container">
+            <div className="text-center mb-12">
+              <h1 className="text-4xl font-bold tracking-tighter mb-2">Compare Lado a Lado</h1>
+              <p className="text-lg text-muted-foreground">
+                Selecione dois produtos para ver uma análise comparativa detalhada.
+              </p>
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 max-w-4xl mx-auto">
-            {isLoadingPosts ? (
-              <>
-                <Skeleton className="h-12 w-full" />
-                <Skeleton className="h-12 w-full" />
-              </>
-            ) : (
-              <>
-                <ProductSelector
-                  posts={allPosts || []}
-                  selectedProductId={productOneId}
-                  onSelect={setProductOneId}
-                  disabledProductId={productTwoId}
-                />
-                <ProductSelector
-                  posts={allPosts || []}
-                  selectedProductId={productTwoId}
-                  onSelect={setProductTwoId}
-                  disabledProductId={productOneId}
-                />
-              </>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 max-w-4xl mx-auto">
+              {isLoadingPosts ? (
+                <>
+                  <Skeleton className="h-12 w-full" />
+                  <Skeleton className="h-12 w-full" />
+                </>
+              ) : (
+                <>
+                  <ProductSelector
+                    posts={allPosts || []}
+                    selectedProductId={productOneId}
+                    onSelect={setProductOneId}
+                    disabledProductId={productTwoId}
+                  />
+                  <ProductSelector
+                    posts={allPosts || []}
+                    selectedProductId={productTwoId}
+                    onSelect={setProductTwoId}
+                    disabledProductId={productOneId}
+                  />
+                </>
+              )}
+            </div>
+
+            {(productOneId || productTwoId) && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-center text-2xl">Quadro Comparativo</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="p-4 text-left font-semibold text-lg w-1/4">Característica</th>
+                          <th className="p-4 text-center font-semibold text-lg w-3/8">
+                            {isLoadingOne ? <Skeleton className="h-7 w-3/4 mx-auto" /> : productOne?.title || 'Produto 1'}
+                          </th>
+                          <th className="p-4 text-center font-semibold text-lg w-3/8">
+                            {isLoadingTwo ? <Skeleton className="h-7 w-3/4 mx-auto" /> : productTwo?.title || 'Produto 2'}
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-b">
+                          <td className="p-4 font-medium align-top">Imagem</td>
+                          <td className="p-4 text-center">
+                            {isLoadingOne ? <Skeleton className="aspect-square w-full max-w-xs mx-auto rounded-lg" /> : productOne && <img src={productOne.image || 'https://placehold.co/400'} alt={productOne.title} className="rounded-lg mx-auto" />}
+                          </td>
+                          <td className="p-4 text-center">
+                            {isLoadingTwo ? <Skeleton className="aspect-square w-full max-w-xs mx-auto rounded-lg" /> : productTwo && <img src={productTwo.image || 'https://placehold.co/400'} alt={productTwo.title} className="rounded-lg mx-auto" />}
+                          </td>
+                        </tr>
+                        <tr className="border-b">
+                          <td className="p-4 font-medium align-top">Avaliação</td>
+                          <td className="p-4 text-center text-xl font-bold">
+                            {isLoadingOne ? <Skeleton className="h-7 w-20 mx-auto" /> : productOne && (
+                              <div className="flex items-center justify-center gap-2">
+                                <Star className="w-6 h-6 fill-yellow-400 text-yellow-400" />
+                                <span>{productOne.rating} / 10</span>
+                              </div>
+                            )}
+                          </td>
+                          <td className="p-4 text-center text-xl font-bold">
+                            {isLoadingTwo ? <Skeleton className="h-7 w-20 mx-auto" /> : productTwo && (
+                              <div className="flex items-center justify-center gap-2">
+                                <Star className="w-6 h-6 fill-yellow-400 text-yellow-400" />
+                                <span>{productTwo.rating} / 10</span>
+                              </div>
+                            )}
+                          </td>
+                        </tr>
+                        <tr className="border-b">
+                          <td className="p-4 font-medium align-top">
+                            <div className="flex items-center gap-2">
+                              <ThumbsUp className="w-5 h-5 text-green-500" /> Pontos Positivos
+                            </div>
+                          </td>
+                          <td className="p-4 align-top">
+                            {isLoadingOne ? <Skeleton className="h-24 w-full" /> : productOne && (
+                              <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                                {productOne.pros.map((pro, i) => <li key={i}>{pro}</li>)}
+                              </ul>
+                            )}
+                          </td>
+                          <td className="p-4 align-top">
+                            {isLoadingTwo ? <Skeleton className="h-24 w-full" /> : productTwo && (
+                              <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                                {productTwo.pros.map((pro, i) => <li key={i}>{pro}</li>)}
+                              </ul>
+                            )}
+                          </td>
+                        </tr>
+                        <tr className="border-b">
+                          <td className="p-4 font-medium align-top">
+                            <div className="flex items-center gap-2">
+                              <ThumbsDown className="w-5 h-5 text-red-500" /> Pontos Negativos
+                            </div>
+                          </td>
+                          <td className="p-4 align-top">
+                            {isLoadingOne ? <Skeleton className="h-24 w-full" /> : productOne && (
+                              <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                                {productOne.cons.map((con, i) => <li key={i}>{con}</li>)}
+                              </ul>
+                            )}
+                          </td>
+                          <td className="p-4 align-top">
+                            {isLoadingTwo ? <Skeleton className="h-24 w-full" /> : productTwo && (
+                              <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                                {productTwo.cons.map((con, i) => <li key={i}>{con}</li>)}
+                              </ul>
+                            )}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="p-4 font-medium">Comprar</td>
+                          <td className="p-4 text-center">
+                            {isLoadingOne ? <Skeleton className="h-10 w-28 mx-auto" /> : productOne && <AffiliateLinksButton product={productOne} />}
+                          </td>
+                          <td className="p-4 text-center">
+                            {isLoadingTwo ? <Skeleton className="h-10 w-28 mx-auto" /> : productTwo && <AffiliateLinksButton product={productTwo} />}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
             )}
           </div>
-
-          {(productOneId || productTwoId) && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-center text-2xl">Quadro Comparativo</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="overflow-x-auto">
-                  <table className="w-full border-collapse">
-                    <thead>
-                      <tr className="border-b">
-                        <th className="p-4 text-left font-semibold text-lg w-1/4">Característica</th>
-                        <th className="p-4 text-center font-semibold text-lg w-3/8">
-                          {isLoadingOne ? <Skeleton className="h-7 w-3/4 mx-auto" /> : productOne?.title || 'Produto 1'}
-                        </th>
-                        <th className="p-4 text-center font-semibold text-lg w-3/8">
-                          {isLoadingTwo ? <Skeleton className="h-7 w-3/4 mx-auto" /> : productTwo?.title || 'Produto 2'}
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr className="border-b">
-                        <td className="p-4 font-medium align-top">Imagem</td>
-                        <td className="p-4 text-center">
-                          {isLoadingOne ? <Skeleton className="aspect-square w-full max-w-xs mx-auto rounded-lg" /> : productOne && <img src={productOne.image || 'https://placehold.co/400'} alt={productOne.title} className="rounded-lg mx-auto" />}
-                        </td>
-                        <td className="p-4 text-center">
-                          {isLoadingTwo ? <Skeleton className="aspect-square w-full max-w-xs mx-auto rounded-lg" /> : productTwo && <img src={productTwo.image || 'https://placehold.co/400'} alt={productTwo.title} className="rounded-lg mx-auto" />}
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="p-4 font-medium align-top">Avaliação</td>
-                        <td className="p-4 text-center text-xl font-bold">
-                          {isLoadingOne ? <Skeleton className="h-7 w-20 mx-auto" /> : productOne && (
-                            <div className="flex items-center justify-center gap-2">
-                              <Star className="w-6 h-6 fill-yellow-400 text-yellow-400" />
-                              <span>{productOne.rating} / 10</span>
-                            </div>
-                          )}
-                        </td>
-                        <td className="p-4 text-center text-xl font-bold">
-                          {isLoadingTwo ? <Skeleton className="h-7 w-20 mx-auto" /> : productTwo && (
-                            <div className="flex items-center justify-center gap-2">
-                              <Star className="w-6 h-6 fill-yellow-400 text-yellow-400" />
-                              <span>{productTwo.rating} / 10</span>
-                            </div>
-                          )}
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="p-4 font-medium align-top">
-                          <div className="flex items-center gap-2">
-                            <ThumbsUp className="w-5 h-5 text-green-500" /> Pontos Positivos
-                          </div>
-                        </td>
-                        <td className="p-4 align-top">
-                          {isLoadingOne ? <Skeleton className="h-24 w-full" /> : productOne && (
-                            <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                              {productOne.pros.map((pro, i) => <li key={i}>{pro}</li>)}
-                            </ul>
-                          )}
-                        </td>
-                        <td className="p-4 align-top">
-                          {isLoadingTwo ? <Skeleton className="h-24 w-full" /> : productTwo && (
-                            <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                              {productTwo.pros.map((pro, i) => <li key={i}>{pro}</li>)}
-                            </ul>
-                          )}
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="p-4 font-medium align-top">
-                          <div className="flex items-center gap-2">
-                            <ThumbsDown className="w-5 h-5 text-red-500" /> Pontos Negativos
-                          </div>
-                        </td>
-                        <td className="p-4 align-top">
-                          {isLoadingOne ? <Skeleton className="h-24 w-full" /> : productOne && (
-                            <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                              {productOne.cons.map((con, i) => <li key={i}>{con}</li>)}
-                            </ul>
-                          )}
-                        </td>
-                        <td className="p-4 align-top">
-                          {isLoadingTwo ? <Skeleton className="h-24 w-full" /> : productTwo && (
-                            <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                              {productTwo.cons.map((con, i) => <li key={i}>{con}</li>)}
-                            </ul>
-                          )}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="p-4 font-medium">Comprar</td>
-                        <td className="p-4 text-center">
-                          {isLoadingOne ? <Skeleton className="h-10 w-28 mx-auto" /> : productOne && <AffiliateLinksButton product={productOne} />}
-                        </td>
-                        <td className="p-4 text-center">
-                          {isLoadingTwo ? <Skeleton className="h-10 w-28 mx-auto" /> : productTwo && <AffiliateLinksButton product={productTwo} />}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-        </div>
-      </main>
-      <Footer />
-    </div>
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 };
 

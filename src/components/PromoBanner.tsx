@@ -118,7 +118,7 @@ export const PromoBanner = () => {
                               <a 
                                 href={banner.affiliate_link_amazon} 
                                 target="_blank" 
-                                rel="noopener noreferrer" 
+                                rel="noopener noreferrer sponsored" 
                                 className="cursor-pointer w-full px-2 py-1.5 text-sm font-semibold rounded-sm transition-colors bg-amazon text-amazon-foreground hover:bg-amazon/90 focus:bg-amazon/90 focus:outline-none"
                               >
                                 Comprar na Amazon
@@ -130,7 +130,7 @@ export const PromoBanner = () => {
                               <a 
                                 href={banner.affiliate_link_ml} 
                                 target="_blank" 
-                                rel="noopener noreferrer" 
+                                rel="noopener noreferrer sponsored" 
                                 className="cursor-pointer w-full px-2 py-1.5 text-sm font-semibold rounded-sm transition-colors bg-mercadolivre text-mercadolivre-foreground hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none"
                               >
                                 Comprar no Mercado Livre
