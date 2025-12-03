@@ -11,7 +11,7 @@ const NavLinks = () => (
     <Link to="/category/smartphones" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Smartphones</Link>
     <Link to="/offers" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Ofertas</Link>
     <Link to="/comparisons" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Comparativos</Link>
-    <Link to="/category/acessorios" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Acessórios</Link>
+    <Link to="/accessories" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Acessórios</Link>
     <Link to="/about" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Sobre</Link>
   </>
 );

@@ -11,7 +11,7 @@ import PostsPage from "./pages/admin/Posts";
 import OffersPageAdmin from "./pages/admin/Offers";
 import CategoriesPage from "./pages/admin/Categories";
 import BannersPage from "./pages/admin/Banners";
-import AccessoriesPage from "./pages/admin/Accessories";
+import AccessoriesAdminPage from "./pages/admin/Accessories";
 import ReviewPage from "./pages/Review";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -24,6 +24,8 @@ import CategoryPage from "./pages/Category";
 import OffersPage from "./pages/Offers";
 import ComparisonsPage from "./pages/Comparisons";
 import AboutPage from "./pages/About";
+import AccessoriesPage from "./pages/Accessories";
+import AccessoryPage from "./pages/AccessoryPage";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +52,8 @@ const AppRoutes = () => {
       <Route path="/offers" element={<OffersPage />} />
       <Route path="/comparisons" element={<ComparisonsPage />} />
       <Route path="/about" element={<AboutPage />} />
+      <Route path="/accessories" element={<AccessoriesPage />} />
+      <Route path="/accessory/:id" element={<AccessoryPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/update-password" element={<UpdatePassword />} />
@@ -74,7 +78,7 @@ const AppRoutes = () => {
         path="/admin/accessories" 
         element={
           <ProtectedRoute>
-            <AccessoriesPage />
+            <AccessoriesAdminPage />
           </ProtectedRoute>
         } 
       />
