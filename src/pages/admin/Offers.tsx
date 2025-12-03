@@ -54,7 +54,8 @@ const OffersPage = () => {
 
   const updateOfferMutation = useMutation({
     mutationFn: async (updatedOffer: any) => {
-      const { error } = await supabase.from('offers').update(updatedOffer).eq('id', updatedOffer.id);
+      const { id, ...updateData } = updatedOffer;
+      const { error } = await supabase.from('offers').update(updateData).eq('id', id);
       if (error) throw error;
     },
     ...mutationOptions,

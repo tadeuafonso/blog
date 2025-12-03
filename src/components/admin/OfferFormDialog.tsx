@@ -26,23 +26,25 @@ export const OfferFormDialog = ({ offer, open, onOpenChange, onSave }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (offer) {
-      setName(offer.name || "");
-      setPrice(offer.price || "");
-      setImage(offer.image || "");
-      setTag(offer.tag || "");
-      setAffiliateLinkAmazon(offer.affiliate_link_amazon || "");
-      setAffiliateLinkMl(offer.affiliate_link_ml || "");
-    } else {
-      setName("");
-      setPrice("");
-      setImage("");
-      setTag("");
-      setAffiliateLinkAmazon("");
-      setAffiliateLinkMl("");
+    if (open) { // Reset state only when dialog opens
+      if (offer) {
+        setName(offer.name || "");
+        setPrice(offer.price || "");
+        setImage(offer.image || "");
+        setTag(offer.tag || "");
+        setAffiliateLinkAmazon(offer.affiliate_link_amazon || "");
+        setAffiliateLinkMl(offer.affiliate_link_ml || "");
+      } else {
+        setName("");
+        setPrice("");
+        setImage("");
+        setTag("");
+        setAffiliateLinkAmazon("");
+        setAffiliateLinkMl("");
+      }
+      setImageFile(null);
     }
-    setImageFile(null);
-  }, [offer]);
+  }, [offer, open]);
 
   const handleSave = async () => {
     let imageUrl = image;
@@ -61,7 +63,12 @@ export const OfferFormDialog = ({ offer, open, onOpenChange, onSave }) => {
         .from('offer_images')
         .getPublicUrl(filePath);
       
-      imageUrl = data.publicUrl;
+      if (data && data.publicUrl) {
+        imageUrl = data.publicUrl;
+      } else {
+        showError("Não foi possível obter o URL da imagem após o upload.");
+        return;
+      }
     }
 
     onSave({
