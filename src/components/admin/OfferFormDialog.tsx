@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useEffect, useState, useRef } from "react";
-import { Upload } from "lucide-react";
+import { Upload, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { showError } from "@/utils/toast";
 
@@ -26,7 +26,7 @@ export const OfferFormDialog = ({ offer, open, onOpenChange, onSave }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (open) { // Reset state only when dialog opens
+    if (open) {
       if (offer) {
         setName(offer.name || "");
         setPrice(offer.price || "");
@@ -71,15 +71,16 @@ export const OfferFormDialog = ({ offer, open, onOpenChange, onSave }) => {
       }
     }
 
-    onSave({
-      ...offer,
+    const saveData = {
+      id: offer?.id,
       name,
       price,
       image: imageUrl,
       tag,
       affiliate_link_amazon: affiliateLinkAmazon,
       affiliate_link_ml: affiliateLinkMl,
-    });
+    };
+    onSave(saveData);
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,6 +96,14 @@ export const OfferFormDialog = ({ offer, open, onOpenChange, onSave }) => {
 
   const triggerFileUpload = () => {
     fileInputRef.current?.click();
+  };
+
+  const handleRemoveImage = () => {
+    if (image && image.startsWith("blob:")) {
+      URL.revokeObjectURL(image);
+    }
+    setImage("");
+    setImageFile(null);
   };
 
   return (
@@ -124,10 +133,22 @@ export const OfferFormDialog = ({ offer, open, onOpenChange, onSave }) => {
                 <p className="text-sm text-muted-foreground">
                   Tamanho ideal: 800x600 pixels
                 </p>
-                <Button type="button" variant="outline" onClick={triggerFileUpload}>
-                  <Upload className="mr-2 h-4 w-4" />
-                  {image ? "Alterar Imagem" : "Selecionar Imagem"}
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button type="button" variant="outline" onClick={triggerFileUpload}>
+                    <Upload className="mr-2 h-4 w-4" />
+                    {image ? "Alterar Imagem" : "Selecionar Imagem"}
+                  </Button>
+                  {image && (
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="icon"
+                      onClick={handleRemoveImage}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
                 <input
                   type="file"
                   ref={fileInputRef}
