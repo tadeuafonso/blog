@@ -1,4 +1,4 @@
-import { Menu, Search, Check } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
@@ -24,7 +24,7 @@ export const Header = () => {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-6">
           <Link to="/" className="flex items-center gap-2">
-            <Check className="h-6 w-6 text-primary" strokeWidth={3} />
+            <img src="/logo.png" alt="Qual Logo" className="h-6 w-6" />
             <span className="text-xl font-bold text-foreground">Qual</span>
           </Link>
           {!isMobile && (

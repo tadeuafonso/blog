@@ -7,6 +7,7 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <a href="/" className="flex items-center gap-2 mb-4">
+              <img src="/logo.png" alt="Qual Logo" className="h-6 w-6" />
               <span className="text-xl font-bold text-foreground">Qual</span>
             </a>
             <p className="text-sm text-muted-foreground">Compare. Escolha. Acerte.</p>

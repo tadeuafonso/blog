@@ -6,7 +6,6 @@ import {
   Home,
   FileText,
   Tag,
-  Check,
   Layers,
   Megaphone,
   Headphones
@@ -55,7 +54,7 @@ const AdminHeader = () => {
               to="/"
               className="flex items-center gap-2 text-lg font-semibold mb-4"
             >
-              <Check className="h-6 w-6 text-primary" strokeWidth={3} />
+              <img src="/logo.png" alt="Qual Logo" className="h-6 w-6" />
               <span className="">Qual</span>
             </Link>
             <Link
