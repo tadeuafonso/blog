@@ -49,7 +49,7 @@ export const OfferFormDialog = ({ offer, open, onOpenChange, onSave }) => {
   const handleSave = async () => {
     let imageUrl = image;
     if (imageFile) {
-      const filePath = `public/${Date.now()}-${imageFile.name}`;
+      const filePath = `${Date.now()}-${imageFile.name}`;
       const { error: uploadError } = await supabase.storage
         .from('offer_images')
         .upload(filePath, imageFile);
