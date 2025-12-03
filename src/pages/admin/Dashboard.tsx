@@ -1,8 +1,43 @@
 import AdminLayout from "../../components/admin/AdminLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DollarSign, Users, CreditCard, Activity } from "lucide-react";
+import { FileText, Headphones, Layers, MousePointerClick } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const fetchDashboardStats = async () => {
+  const { count: reviewsCount, error: reviewsError } = await supabase
+    .from('posts')
+    .select('*', { count: 'exact', head: true })
+    .eq('status', 'Publicado');
+
+  const { count: accessoriesCount, error: accessoriesError } = await supabase
+    .from('accessories')
+    .select('*', { count: 'exact', head: true })
+    .eq('status', 'Publicado');
+
+  const { count: categoriesCount, error: categoriesError } = await supabase
+    .from('categories')
+    .select('*', { count: 'exact', head: true });
+
+  if (reviewsError || accessoriesError || categoriesError) {
+    console.error(reviewsError || accessoriesError || categoriesError);
+    throw new Error("Não foi possível carregar as estatísticas.");
+  }
+
+  return {
+    reviewsCount,
+    accessoriesCount,
+    categoriesCount,
+  };
+};
 
 const Admin = () => {
+  const { data: stats, isLoading } = useQuery({
+    queryKey: ['dashboard_stats'],
+    queryFn: fetchDashboardStats,
+  });
+
   return (
     <AdminLayout>
       <div className="flex-1 space-y-4 p-8 pt-6">
@@ -13,54 +48,66 @@ const Admin = () => {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Receita Total
+                Reviews Publicados
               </CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
+              <FileText className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">$45,231.89</div>
+              {isLoading ? (
+                <Skeleton className="h-8 w-1/2" />
+              ) : (
+                <div className="text-2xl font-bold">{stats?.reviewsCount ?? 0}</div>
+              )}
               <p className="text-xs text-muted-foreground">
-                +20.1% do último mês
+                Total de reviews no site
               </p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Usuários
+                Acessórios Publicados
               </CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
+              <Headphones className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+2350</div>
+              {isLoading ? (
+                <Skeleton className="h-8 w-1/2" />
+              ) : (
+                <div className="text-2xl font-bold">{stats?.accessoriesCount ?? 0}</div>
+              )}
               <p className="text-xs text-muted-foreground">
-                +180.1% do último mês
+                Total de acessórios no site
               </p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Vendas</CardTitle>
-              <CreditCard className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium">Categorias</CardTitle>
+              <Layers className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+12,234</div>
+              {isLoading ? (
+                <Skeleton className="h-8 w-1/2" />
+              ) : (
+                <div className="text-2xl font-bold">{stats?.categoriesCount ?? 0}</div>
+              )}
               <p className="text-xs text-muted-foreground">
-                +19% do último mês
+                Total de categorias criadas
               </p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Ativos Agora
+                Cliques (Mês)
               </CardTitle>
-              <Activity className="h-4 w-4 text-muted-foreground" />
+              <MousePointerClick className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+573</div>
+              <div className="text-2xl font-bold">734</div>
               <p className="text-xs text-muted-foreground">
-                +201 desde a última hora
+                Cliques em links de afiliados
               </p>
             </CardContent>
           </Card>
