@@ -55,7 +55,7 @@ export const OffersSection = () => {
                 <Card key={offer.id} className="relative flex flex-col">
                   {offer.tag && <Badge variant="destructive" className="absolute top-4 right-4">{offer.tag}</Badge>}
                   <CardHeader className="p-0">
-                    <img src={offer.image || 'https://placehold.co/400x300'} alt={offer.name} className="rounded-t-lg aspect-video object-cover" />
+                    <img src={offer.image || 'https://placehold.co/400x300'} alt={offer.name} className="rounded-t-lg w-full aspect-video object-cover" />
                   </CardHeader>
                   <CardContent className="p-4 flex-1">
                     <CardTitle className="mb-2 text-lg">{offer.name}</CardTitle>
