@@ -5,6 +5,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from "@/components/ui/carousel";
 import {
   DropdownMenu,
@@ -15,6 +16,9 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "./ui/skeleton";
+import { useEffect, useRef, useState } from "react";
+import Autoplay from "embla-carousel-autoplay";
+import { cn } from "@/lib/utils";
 
 const fetchBanners = async () => {
   const { data, error } = await supabase
@@ -34,6 +38,27 @@ export const PromoBanner = () => {
     queryKey: ['promo_banners'],
     queryFn: fetchBanners,
   });
+
+  const plugin = useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: true, stopOnMouseEnter: true })
+  );
+
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap() + 1);
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
 
   if (isLoading) {
     return (
@@ -58,12 +83,14 @@ export const PromoBanner = () => {
   }
 
   return (
-    <section className="w-full" style={{ backgroundColor: '#0057D9' }}>
+    <section className="w-full relative" style={{ backgroundColor: '#0057D9' }}>
       <Carousel
         opts={{
           align: "start",
           loop: true,
         }}
+        plugins={[plugin.current]}
+        setApi={setApi}
         className="w-full"
       >
         <CarouselContent>
@@ -133,6 +160,24 @@ export const PromoBanner = () => {
           </>
         )}
       </Carousel>
+      {banners.length > 1 && (
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center space-x-4">
+          {Array.from({ length: count }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => api?.scrollTo(index)}
+              className={cn(
+                "text-white text-sm font-mono",
+                current === index + 1 ? "opacity-100 font-bold" : "opacity-60",
+                "transition-all"
+              )}
+              aria-label={`Ir para o slide ${index + 1}`}
+            >
+              {String(index + 1).padStart(2, '0')}
+            </button>
+          ))}
+        </div>
+      )}
     </section>
   );
 };
