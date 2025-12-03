@@ -59,7 +59,7 @@ export const OffersSection = () => {
                   </CardHeader>
                   <CardContent className="p-4 flex-1">
                     <CardTitle className="mb-2 text-lg">{offer.name}</CardTitle>
-                    <p className="text-2xl font-bold">{offer.price}</p>
+                    <p className="text-2xl font-bold">{offer.price.replace(/\s/g, '')}</p>
                   </CardContent>
                   <CardFooter className="p-4 pt-0">
                     {hasAffiliateLinks ? (
