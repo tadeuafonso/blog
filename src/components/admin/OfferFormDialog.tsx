@@ -132,7 +132,7 @@ export const OfferFormDialog = ({ offer, open, onOpenChange, onSave }) => {
               </Label>
               <div className="col-span-3 flex flex-col items-start gap-2">
                 <p className="text-sm text-muted-foreground">
-                  Tamanho ideal: 800x600 pixels
+                  Tamanho ideal: 800x800 pixels (quadrada)
                 </p>
                 <div className="flex items-center gap-2">
                   <Button type="button" variant="outline" onClick={triggerFileUpload}>
