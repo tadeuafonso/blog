@@ -8,7 +8,8 @@ import {
   Tag,
   Check,
   Layers,
-  Megaphone
+  Megaphone,
+  Headphones
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -86,6 +87,16 @@ const AdminHeader = () => {
             >
               <FileText className="h-5 w-5" />
               Reviews
+            </Link>
+            <Link
+              to="/admin/accessories"
+              className={cn(
+                "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground",
+                pathname === "/admin/accessories" && "bg-muted text-foreground"
+              )}
+            >
+              <Headphones className="h-5 w-5" />
+              Acessórios
             </Link>
             <Link
               to="/admin/offers"

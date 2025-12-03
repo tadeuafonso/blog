@@ -11,6 +11,7 @@ import PostsPage from "./pages/admin/Posts";
 import OffersPageAdmin from "./pages/admin/Offers";
 import CategoriesPage from "./pages/admin/Categories";
 import BannersPage from "./pages/admin/Banners";
+import AccessoriesPage from "./pages/admin/Accessories";
 import ReviewPage from "./pages/Review";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -66,6 +67,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <PostsPage />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/accessories" 
+        element={
+          <ProtectedRoute>
+            <AccessoriesPage />
           </ProtectedRoute>
         } 
       />
