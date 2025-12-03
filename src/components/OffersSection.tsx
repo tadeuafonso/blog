@@ -4,6 +4,12 @@ import { Badge } from "./ui/badge";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "./ui/skeleton";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const fetchOffers = async () => {
   const { data, error } = await supabase
@@ -43,21 +49,48 @@ export const OffersSection = () => {
               </Card>
             ))
           ) : (
-            offers?.map((offer) => (
-              <Card key={offer.id} className="relative">
-                {offer.tag && <Badge variant="destructive" className="absolute top-4 right-4">{offer.tag}</Badge>}
-                <CardHeader className="p-0">
-                  <img src={offer.image || 'https://placehold.co/400x300'} alt={offer.name} className="rounded-t-lg aspect-video object-cover" />
-                </CardHeader>
-                <CardContent className="p-4">
-                  <CardTitle className="mb-2 text-lg">{offer.name}</CardTitle>
-                  <p className="text-2xl font-bold">{offer.price}</p>
-                </CardContent>
-                <CardFooter className="p-4 pt-0">
-                  <Button variant="outline" className="w-full">Comprar Agora</Button>
-                </CardFooter>
-              </Card>
-            ))
+            offers?.map((offer) => {
+              const hasAffiliateLinks = offer.affiliate_link_amazon || offer.affiliate_link_ml;
+              return (
+                <Card key={offer.id} className="relative flex flex-col">
+                  {offer.tag && <Badge variant="destructive" className="absolute top-4 right-4">{offer.tag}</Badge>}
+                  <CardHeader className="p-0">
+                    <img src={offer.image || 'https://placehold.co/400x300'} alt={offer.name} className="rounded-t-lg aspect-video object-cover" />
+                  </CardHeader>
+                  <CardContent className="p-4 flex-1">
+                    <CardTitle className="mb-2 text-lg">{offer.name}</CardTitle>
+                    <p className="text-2xl font-bold">{offer.price}</p>
+                  </CardContent>
+                  <CardFooter className="p-4 pt-0">
+                    {hasAffiliateLinks ? (
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button className="w-full" style={{ backgroundColor: '#0057D9' }}>Comprar Agora</Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          {offer.affiliate_link_amazon && (
+                            <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
+                              <a href={offer.affiliate_link_amazon} target="_blank" rel="noopener noreferrer sponsored" className="cursor-pointer w-full px-2 py-1.5 text-sm font-semibold rounded-sm transition-colors bg-amazon text-amazon-foreground hover:bg-amazon/90 focus:bg-amazon/90 focus:outline-none">
+                                Comprar na Amazon
+                              </a>
+                            </DropdownMenuItem>
+                          )}
+                          {offer.affiliate_link_ml && (
+                            <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
+                              <a href={offer.affiliate_link_ml} target="_blank" rel="noopener noreferrer sponsored" className="cursor-pointer w-full px-2 py-1.5 text-sm font-semibold rounded-sm transition-colors bg-mercadolivre text-mercadolivre-foreground hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none">
+                                Comprar no Mercado Livre
+                              </a>
+                            </DropdownMenuItem>
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    ) : (
+                      <Button variant="outline" className="w-full" disabled>Indisponível</Button>
+                    )}
+                  </CardFooter>
+                </Card>
+              );
+            })
           )}
         </div>
       </div>

@@ -21,6 +21,8 @@ export const OfferFormDialog = ({ offer, open, onOpenChange, onSave }) => {
   const [image, setImage] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [tag, setTag] = useState("");
+  const [affiliateLinkAmazon, setAffiliateLinkAmazon] = useState("");
+  const [affiliateLinkMl, setAffiliateLinkMl] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -29,11 +31,15 @@ export const OfferFormDialog = ({ offer, open, onOpenChange, onSave }) => {
       setPrice(offer.price || "");
       setImage(offer.image || "");
       setTag(offer.tag || "");
+      setAffiliateLinkAmazon(offer.affiliate_link_amazon || "");
+      setAffiliateLinkMl(offer.affiliate_link_ml || "");
     } else {
       setName("");
       setPrice("");
       setImage("");
       setTag("");
+      setAffiliateLinkAmazon("");
+      setAffiliateLinkMl("");
     }
     setImageFile(null);
   }, [offer]);
@@ -64,6 +70,8 @@ export const OfferFormDialog = ({ offer, open, onOpenChange, onSave }) => {
       price,
       image: imageUrl,
       tag,
+      affiliate_link_amazon: affiliateLinkAmazon,
+      affiliate_link_ml: affiliateLinkMl,
     });
   };
 
@@ -107,11 +115,11 @@ export const OfferFormDialog = ({ offer, open, onOpenChange, onSave }) => {
               </Label>
               <div className="col-span-3 flex flex-col items-start gap-2">
                 <p className="text-sm text-muted-foreground">
-                  Tamanho ideal: 800x450 pixels (16:9)
+                  Tamanho ideal: 800x600 pixels
                 </p>
                 <Button type="button" variant="outline" onClick={triggerFileUpload}>
                   <Upload className="mr-2 h-4 w-4" />
-                  Selecionar Imagem
+                  {image ? "Alterar Imagem" : "Selecionar Imagem"}
                 </Button>
                 <input
                   type="file"
@@ -151,6 +159,30 @@ export const OfferFormDialog = ({ offer, open, onOpenChange, onSave }) => {
                 onChange={(e) => setTag(e.target.value)}
                 className="col-span-3"
                 placeholder="Ex: Oferta Relâmpago"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="affiliateLinkAmazon" className="text-right">
+                Link Amazon
+              </Label>
+              <Input
+                id="affiliateLinkAmazon"
+                value={affiliateLinkAmazon}
+                onChange={(e) => setAffiliateLinkAmazon(e.target.value)}
+                className="col-span-3"
+                placeholder="Link de afiliado da Amazon"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="affiliateLinkMl" className="text-right">
+                Link Mercado Livre
+              </Label>
+              <Input
+                id="affiliateLinkMl"
+                value={affiliateLinkMl}
+                onChange={(e) => setAffiliateLinkMl(e.target.value)}
+                className="col-span-3"
+                placeholder="Link de afiliado do Mercado Livre"
               />
             </div>
           </div>
