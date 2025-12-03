@@ -112,15 +112,25 @@ const ReviewPage = () => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
                     {review.affiliate_link_amazon && (
-                      <DropdownMenuItem asChild>
-                        <a href={review.affiliate_link_amazon} target="_blank" rel="noopener noreferrer" className="cursor-pointer">
+                      <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
+                        <a 
+                          href={review.affiliate_link_amazon} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="cursor-pointer w-full px-2 py-1.5 text-sm font-semibold rounded-sm transition-colors bg-amazon text-amazon-foreground hover:bg-amazon/90 focus:bg-amazon/90 focus:outline-none"
+                        >
                           Comprar na Amazon
                         </a>
                       </DropdownMenuItem>
                     )}
                     {review.affiliate_link_ml && (
-                      <DropdownMenuItem asChild>
-                        <a href={review.affiliate_link_ml} target="_blank" rel="noopener noreferrer" className="cursor-pointer">
+                      <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
+                        <a 
+                          href={review.affiliate_link_ml} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="cursor-pointer w-full px-2 py-1.5 text-sm font-semibold rounded-sm transition-colors bg-mercadolivre text-mercadolivre-foreground hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none"
+                        >
                           Comprar no Mercado Livre
                         </a>
                       </DropdownMenuItem>

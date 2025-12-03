@@ -62,6 +62,14 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        amazon: {
+          DEFAULT: "#FF9900",
+          foreground: "#111111",
+        },
+        mercadolivre: {
+          DEFAULT: "#FFF159",
+          foreground: "#333333",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
