@@ -63,8 +63,8 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
         amazon: {
-          DEFAULT: "#FF9900",
-          foreground: "#111111",
+          DEFAULT: "#232F3E",
+          foreground: "#FFFFFF",
         },
         mercadolivre: {
           DEFAULT: "#FFF159",
