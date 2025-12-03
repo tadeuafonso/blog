@@ -38,7 +38,7 @@ export const OffersSection = () => {
           {isLoading ? (
             Array.from({ length: 4 }).map((_, index) => (
               <Card key={index}>
-                <Skeleton className="rounded-t-lg aspect-video" />
+                <Skeleton className="rounded-t-lg aspect-square" />
                 <CardContent className="p-4 space-y-2">
                   <Skeleton className="h-6 w-3/4" />
                   <Skeleton className="h-8 w-1/2" />
@@ -55,7 +55,7 @@ export const OffersSection = () => {
                 <Card key={offer.id} className="relative flex flex-col">
                   {offer.tag && <Badge variant="destructive" className="absolute top-4 right-4">{offer.tag}</Badge>}
                   <CardHeader className="p-0">
-                    <img src={offer.image || 'https://placehold.co/400x300'} alt={offer.name} className="rounded-t-lg w-full aspect-video object-cover" />
+                    <img src={offer.image || 'https://placehold.co/400x300'} alt={offer.name} className="rounded-t-lg w-full aspect-square object-contain bg-white dark:bg-muted" />
                   </CardHeader>
                   <CardContent className="p-4 flex-1">
                     <CardTitle className="mb-2 text-lg">{offer.name}</CardTitle>
