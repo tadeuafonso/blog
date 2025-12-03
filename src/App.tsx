@@ -8,7 +8,7 @@ import NotFound from "./pages/NotFound";
 import { ThemeProvider } from "./components/ThemeProvider";
 import Dashboard from "./pages/admin/Dashboard";
 import PostsPage from "./pages/admin/Posts";
-import OffersPage from "./pages/admin/Offers";
+import OffersPageAdmin from "./pages/admin/Offers";
 import CategoriesPage from "./pages/admin/Categories";
 import BannersPage from "./pages/admin/Banners";
 import ReviewPage from "./pages/Review";
@@ -20,6 +20,9 @@ import ProtectedRoute from "./components/admin/ProtectedRoute";
 import { useEffect } from "react";
 import { supabase } from "./integrations/supabase/client";
 import CategoryPage from "./pages/Category";
+import OffersPage from "./pages/Offers";
+import ComparisonsPage from "./pages/Comparisons";
+import AboutPage from "./pages/About";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +46,9 @@ const AppRoutes = () => {
       <Route path="/" element={<Index />} />
       <Route path="/review/:id" element={<ReviewPage />} />
       <Route path="/category/:slug" element={<CategoryPage />} />
+      <Route path="/offers" element={<OffersPage />} />
+      <Route path="/comparisons" element={<ComparisonsPage />} />
+      <Route path="/about" element={<AboutPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/update-password" element={<UpdatePassword />} />
@@ -67,7 +73,7 @@ const AppRoutes = () => {
         path="/admin/offers" 
         element={
           <ProtectedRoute>
-            <OffersPage />
+            <OffersPageAdmin />
           </ProtectedRoute>
         } 
       />

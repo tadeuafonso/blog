@@ -4,14 +4,15 @@ import { Input } from "./ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { ThemeToggle } from "./ThemeToggle";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Link } from "react-router-dom";
 
 const NavLinks = () => (
   <>
-    <a href="#" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Smartphones</a>
-    <a href="#" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Ofertas</a>
-    <a href="#" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Comparativos</a>
-    <a href="#" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Acessórios</a>
-    <a href="#" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Sobre</a>
+    <Link to="/category/smartphones" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Smartphones</Link>
+    <Link to="/offers" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Ofertas</Link>
+    <Link to="/comparisons" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Comparativos</Link>
+    <Link to="/category/acessorios" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Acessórios</Link>
+    <Link to="/about" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Sobre</Link>
   </>
 );
 
@@ -22,10 +23,10 @@ export const Header = () => {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-6">
-          <a href="/" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <Check className="h-6 w-6 text-primary" strokeWidth={3} />
             <span className="text-xl font-bold text-foreground">Qual</span>
-          </a>
+          </Link>
           {!isMobile && (
             <nav className="hidden md:flex items-center gap-6">
               <NavLinks />
