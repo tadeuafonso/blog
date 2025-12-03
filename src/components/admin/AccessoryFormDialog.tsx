@@ -71,7 +71,8 @@ export const AccessoryFormDialog = ({ accessory, open, onOpenChange, onSave }) =
   const handleSave = async () => {
     let imageUrl = image;
     if (imageFile) {
-      const filePath = `public/accessory_images/${Date.now()}-${imageFile.name}`;
+      const sanitizedFileName = imageFile.name.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9.\-_]/g, '');
+      const filePath = `accessory_images/${Date.now()}-${sanitizedFileName}`;
       const { error: uploadError } = await supabase.storage
         .from('post_images') // Reusing bucket for simplicity
         .upload(filePath, imageFile);

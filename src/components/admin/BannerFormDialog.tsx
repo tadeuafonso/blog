@@ -49,7 +49,8 @@ export const BannerFormDialog = ({ banner, open, onOpenChange, onSave }) => {
   const handleSave = async () => {
     let finalImageUrl = imageUrl;
     if (imageFile) {
-      const filePath = `public/banners/${Date.now()}-${imageFile.name}`;
+      const sanitizedFileName = imageFile.name.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9.\-_]/g, '');
+      const filePath = `banners/${Date.now()}-${sanitizedFileName}`;
       const { error: uploadError } = await supabase.storage
         .from('post_images') // Usando o mesmo bucket por simplicidade
         .upload(filePath, imageFile);
