@@ -5,8 +5,18 @@ import { CategorySection } from "@/components/CategorySection";
 import { OffersSection } from "@/components/OffersSection";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
+import { useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Index = () => {
+  useEffect(() => {
+    const trackVisit = async () => {
+      // Chama a função no Supabase para incrementar o contador de visitas
+      await supabase.rpc('increment_total_visits');
+    };
+    trackVisit();
+  }, []);
+
   return (
     <>
       <SEO 
