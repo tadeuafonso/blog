@@ -98,55 +98,57 @@ export const PromoBanner = () => {
             <CarouselItem key={banner.id}>
               <div className="py-12 md:py-20 lg:py-24">
                 <div className="container px-4 md:px-6">
-                  <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
-                    <div className="flex flex-col justify-center space-y-4 text-white">
-                      <div className="space-y-2">
-                        <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                          {banner.title}
-                        </h1>
-                        <p className="max-w-[600px] md:text-xl">
-                          {banner.description}
-                        </p>
-                      </div>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="secondary" className="w-fit">Ver Oferta</Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                          {banner.affiliate_link_amazon && (
-                            <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
-                              <a 
-                                href={banner.affiliate_link_amazon} 
-                                target="_blank" 
-                                rel="noopener noreferrer sponsored" 
-                                className="cursor-pointer w-full px-2 py-1.5 text-sm font-semibold rounded-sm transition-colors bg-amazon text-amazon-foreground hover:bg-amazon/90 focus:bg-amazon/90 focus:outline-none"
-                              >
-                                Comprar na Amazon
-                              </a>
-                            </DropdownMenuItem>
-                          )}
-                          {banner.affiliate_link_ml && (
-                            <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
-                              <a 
-                                href={banner.affiliate_link_ml} 
-                                target="_blank" 
-                                rel="noopener noreferrer sponsored" 
-                                className="cursor-pointer w-full px-2 py-1.5 text-sm font-semibold rounded-sm transition-colors bg-mercadolivre text-mercadolivre-foreground hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none"
-                              >
-                                Comprar no Mercado Livre
-                              </a>
-                            </DropdownMenuItem>
-                          )}
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
+                  <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px] items-center">
                     <img
                       alt={banner.title}
-                      className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last lg:aspect-square"
+                      className="mx-auto aspect-video w-full max-w-lg rounded-xl object-cover lg:order-last lg:aspect-square"
                       height="400"
                       src={banner.image_url || "https://placehold.co/1200x1200"}
                       width="1200"
                     />
+                    <div className="flex flex-col justify-center space-y-4 text-white text-center lg:text-left">
+                      <div className="space-y-2">
+                        <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+                          {banner.title}
+                        </h1>
+                        <p className="max-w-[600px] md:text-xl mx-auto lg:mx-0">
+                          {banner.description}
+                        </p>
+                      </div>
+                      <div className="flex justify-center lg:justify-start">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="secondary" className="w-fit">Ver Oferta</Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            {banner.affiliate_link_amazon && (
+                              <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
+                                <a 
+                                  href={banner.affiliate_link_amazon} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer sponsored" 
+                                  className="cursor-pointer w-full px-2 py-1.5 text-sm font-semibold rounded-sm transition-colors bg-amazon text-amazon-foreground hover:bg-amazon/90 focus:bg-amazon/90 focus:outline-none"
+                                >
+                                  Comprar na Amazon
+                                </a>
+                              </DropdownMenuItem>
+                            )}
+                            {banner.affiliate_link_ml && (
+                              <DropdownMenuItem asChild className="p-0 focus:bg-transparent">
+                                <a 
+                                  href={banner.affiliate_link_ml} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer sponsored" 
+                                  className="cursor-pointer w-full px-2 py-1.5 text-sm font-semibold rounded-sm transition-colors bg-mercadolivre text-mercadolivre-foreground hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none"
+                                >
+                                  Comprar no Mercado Livre
+                                </a>
+                              </DropdownMenuItem>
+                            )}
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
