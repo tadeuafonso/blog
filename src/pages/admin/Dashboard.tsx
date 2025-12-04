@@ -52,23 +52,22 @@ const Admin = () => {
     queryFn: fetchDashboardStats,
   });
 
-  const resetSiteDataMutation = useMutation({
+  const resetVisitsMutation = useMutation({
     mutationFn: async () => {
-      const { error } = await supabase.rpc('reset_all_site_data');
+      const { error } = await supabase.rpc('reset_total_visits');
       if (error) throw error;
     },
     onSuccess: () => {
-      // Invalida todas as queries para atualizar a interface
-      queryClient.invalidateQueries();
-      showSuccess("Todos os dados do site foram limpos com sucesso!");
+      queryClient.invalidateQueries({ queryKey: ['dashboard_stats'] });
+      showSuccess("Contador de visitas zerado com sucesso!");
     },
     onError: (error: Error) => {
-      showError(error.message || "Ocorreu um erro ao limpar os dados.");
+      showError(error.message || "Ocorreu um erro ao zerar as visitas.");
     },
   });
 
   const confirmReset = () => {
-    resetSiteDataMutation.mutate();
+    resetVisitsMutation.mutate();
     setIsResetConfirmOpen(false);
   };
 
@@ -78,7 +77,7 @@ const Admin = () => {
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">Painel</h2>
           <Button variant="destructive" onClick={() => setIsResetConfirmOpen(true)}>
-            <Trash2 className="mr-2 h-4 w-4" /> Limpar Todos os Dados
+            <Trash2 className="mr-2 h-4 w-4" /> Limpar Dados de Visitas
           </Button>
         </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -172,8 +171,8 @@ const Admin = () => {
         open={isResetConfirmOpen}
         onOpenChange={setIsResetConfirmOpen}
         onConfirm={confirmReset}
-        title="Você tem certeza absoluta?"
-        description="Essa ação é irreversível. Todos os reviews, acessórios, categorias, banners, ofertas e guias de preço serão permanentemente excluídos. O contador de visitas também será zerado."
+        title="Você tem certeza?"
+        description="Essa ação zerará o contador de visitas do site. Isso não pode ser desfeito."
       />
     </AdminLayout>
   );
