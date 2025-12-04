@@ -14,6 +14,7 @@ const Login = () => {
   const { session } = useSession();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -31,7 +32,15 @@ const Login = () => {
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          user_name: username,
+        },
+      },
+    });
     if (error) {
       showError(error.message || 'Ocorreu um erro ao tentar se cadastrar.');
     } else {
@@ -117,11 +126,22 @@ const Login = () => {
             <CardHeader>
               <CardTitle className="text-2xl">Criar Conta</CardTitle>
               <CardDescription>
-                Crie uma nova conta de administrador para o blog.
+                Crie uma nova conta para poder comentar nas reviews.
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSignUp} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="signup-username">Nome de Usuário</Label>
+                  <Input
+                    id="signup-username"
+                    type="text"
+                    placeholder="seu_usuario"
+                    required
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                </div>
                 <div className="space-y-2">
                   <Label htmlFor="signup-email">E-mail</Label>
                   <Input

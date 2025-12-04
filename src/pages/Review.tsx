@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SEO } from "@/components/SEO";
+import { CommentSection } from "@/components/CommentSection";
 
 const fetchReview = async (id: string) => {
   const { data, error } = await supabase
@@ -216,6 +217,11 @@ const ReviewPage = () => {
                   )}
                 </CardContent>
               </Card>
+            </div>
+
+            <div className="mt-16">
+              <h2 className="text-3xl font-bold mb-6 text-center">Comentários</h2>
+              <CommentSection postId={review.id} />
             </div>
           </div>
         </main>
