@@ -79,7 +79,7 @@ const CategoryPage = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {Array.from({ length: 4 }).map((_, index) => (
                   <Card key={index}>
-                    <Skeleton className="rounded-t-lg aspect-video" />
+                    <Skeleton className="rounded-t-lg aspect-square" />
                     <CardContent className="p-4 space-y-2">
                       <Skeleton className="h-6 w-3/4" />
                       <Skeleton className="h-5 w-1/2" />
@@ -103,7 +103,7 @@ const CategoryPage = () => {
                 {posts.map((post) => (
                   <Card key={post.id} className="flex flex-col h-full">
                     <CardHeader className="p-0">
-                      <img src={post.image || 'https://placehold.co/400x300'} alt={post.title} className="rounded-t-lg aspect-video object-cover" />
+                      <img src={post.image || 'https://placehold.co/800x800'} alt={post.title} className="rounded-t-lg aspect-square object-cover" />
                     </CardHeader>
                     <CardContent className="p-4 flex-1">
                       <CardTitle className="mb-2 text-lg">{post.title}</CardTitle>

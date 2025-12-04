@@ -173,7 +173,7 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
               </Label>
               <div className="col-span-3 flex flex-col items-start gap-2">
                 <p className="text-sm text-muted-foreground">
-                  Tamanho ideal: 1200x1200 pixels (1:1)
+                  Tamanho ideal: <span className="font-semibold text-foreground">800x800 pixels</span> (1:1)
                 </p>
                 <Button type="button" variant="outline" onClick={triggerFileUpload}>
                   <Upload className="mr-2 h-4 w-4" />

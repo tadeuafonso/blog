@@ -51,7 +51,7 @@ export const HighlightsSection = () => {
                   <div className="p-1 h-full">
                     <Card className="flex flex-col h-full">
                       <CardHeader className="p-0">
-                        <Skeleton className="rounded-t-lg aspect-video" />
+                        <Skeleton className="rounded-t-lg aspect-square" />
                       </CardHeader>
                       <CardContent className="p-4 flex-1 space-y-2">
                         <Skeleton className="h-6 w-3/4" />
@@ -70,7 +70,7 @@ export const HighlightsSection = () => {
                   <div className="p-1 h-full">
                     <Card className="flex flex-col h-full">
                       <CardHeader className="p-0">
-                        <img src={review.image || 'https://placehold.co/400x300'} alt={review.title} className="rounded-t-lg aspect-video object-cover" />
+                        <img src={review.image || 'https://placehold.co/800x800'} alt={review.title} className="rounded-t-lg aspect-square object-cover" />
                       </CardHeader>
                       <CardContent className="p-4 flex-1">
                         <CardTitle className="mb-2">{review.title}</CardTitle>

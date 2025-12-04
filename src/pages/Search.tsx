@@ -82,7 +82,7 @@ const SearchPage = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {Array.from({ length: 8 }).map((_, index) => (
                   <Card key={index}>
-                    <Skeleton className="rounded-t-lg aspect-video" />
+                    <Skeleton className="rounded-t-lg aspect-square" />
                     <CardContent className="p-4 space-y-2">
                       <Skeleton className="h-6 w-3/4" />
                       <Skeleton className="h-5 w-1/2" />
@@ -106,7 +106,7 @@ const SearchPage = () => {
                 {results?.map((item) => (
                   <Card key={`${item.type}-${item.id}`} className="flex flex-col h-full">
                     <CardHeader className="p-0 relative">
-                      <img src={item.image || 'https://placehold.co/400x300'} alt={item.title} className="rounded-t-lg aspect-video object-cover" />
+                      <img src={item.image || 'https://placehold.co/800x800'} alt={item.title} className="rounded-t-lg aspect-square object-cover" />
                       <Badge className="absolute top-2 right-2" variant={item.type === 'review' ? 'default' : 'secondary'}>
                         {item.type === 'review' ? 'Review' : 'Acessório'}
                       </Badge>
