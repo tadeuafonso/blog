@@ -4,7 +4,8 @@ import { Input } from "./ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { ThemeToggle } from "./ThemeToggle";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const NavLinks = () => (
   <>
@@ -15,6 +16,33 @@ const NavLinks = () => (
     <Link to="/about" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Sobre</Link>
   </>
 );
+
+const SearchBar = ({ className }: { className?: string }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSearch} className={className}>
+      <div className="relative">
+        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+        <Input
+          type="search"
+          placeholder="Buscar produtos..."
+          className="pl-8 w-full"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+    </form>
+  );
+};
 
 export const Header = () => {
   const isMobile = useIsMobile();
@@ -35,10 +63,7 @@ export const Header = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="relative hidden md:block">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input type="search" placeholder="Buscar produtos..." className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]" />
-          </div>
+          <SearchBar className="hidden md:block sm:w-[300px] md:w-[200px] lg:w-[300px]" />
           <ThemeToggle />
           {isMobile && (
             <Sheet>
@@ -49,7 +74,10 @@ export const Header = () => {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right">
-                <nav className="grid gap-6 text-lg font-medium mt-8">
+                <div className="p-4">
+                  <SearchBar />
+                </div>
+                <nav className="grid gap-6 text-lg font-medium mt-4 p-4">
                   <NavLinks />
                 </nav>
               </SheetContent>

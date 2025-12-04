@@ -28,6 +28,7 @@ import ComparisonsPage from "./pages/Comparisons";
 import AboutPage from "./pages/About";
 import AccessoriesPage from "./pages/Accessories";
 import AccessoryPage from "./pages/AccessoryPage";
+import SearchPage from "./pages/Search";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Index />} />
+      <Route path="/search" element={<SearchPage />} />
       <Route path="/review/:id" element={<ReviewPage />} />
       <Route path="/category/:slug" element={<CategoryPage />} />
       <Route path="/guide/:slug" element={<PriceGuidePage />} />
