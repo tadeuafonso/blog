@@ -143,12 +143,12 @@ export const SmartphoneFormDialog = ({ smartphone, open, onOpenChange, onSave })
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="linkedReview" className="text-right">Vincular Review</Label>
-              <Select value={linkedReviewId || ""} onValueChange={(value) => setLinkedReviewId(value)}>
+              <Select value={linkedReviewId || ""} onValueChange={(value) => setLinkedReviewId(value === 'none' ? '' : value)}>
                 <SelectTrigger className="col-span-3">
                   <SelectValue placeholder={isLoadingReviews ? "Carregando..." : "Selecione um review"} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Nenhum</SelectItem>
+                  <SelectItem value="none">Nenhum</SelectItem>
                   {!isLoadingReviews && reviews?.map(review => (
                     <SelectItem key={review.id} value={review.id}>{review.title}</SelectItem>
                   ))}
