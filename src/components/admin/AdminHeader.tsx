@@ -9,7 +9,8 @@ import {
   Layers,
   Megaphone,
   Headphones,
-  DollarSign
+  DollarSign,
+  Smartphone
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -77,6 +78,16 @@ const AdminHeader = () => {
             >
               <Megaphone className="h-5 w-5" />
               Banners
+            </Link>
+            <Link
+              to="/admin/smartphones"
+              className={cn(
+                "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground",
+                pathname === "/admin/smartphones" && "bg-muted text-foreground"
+              )}
+            >
+              <Smartphone className="h-5 w-5" />
+              Smartphones
             </Link>
             <Link
               to="/admin/posts"

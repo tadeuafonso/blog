@@ -13,6 +13,7 @@ import CategoriesPage from "./pages/admin/Categories";
 import BannersPage from "./pages/admin/Banners";
 import AccessoriesAdminPage from "./pages/admin/Accessories";
 import PriceGuidesPage from "./pages/admin/PriceGuides";
+import SmartphonesAdminPage from "./pages/admin/Smartphones";
 import ReviewPage from "./pages/Review";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -29,6 +30,7 @@ import AboutPage from "./pages/About";
 import AccessoriesPage from "./pages/Accessories";
 import AccessoryPage from "./pages/AccessoryPage";
 import SearchPage from "./pages/Search";
+import SmartphonesPage from "./pages/Smartphones";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +53,7 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<Index />} />
       <Route path="/search" element={<SearchPage />} />
+      <Route path="/smartphones" element={<SmartphonesPage />} />
       <Route path="/review/:id" element={<ReviewPage />} />
       <Route path="/category/:slug" element={<CategoryPage />} />
       <Route path="/guide/:slug" element={<PriceGuidePage />} />
@@ -116,6 +119,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <PriceGuidesPage />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/smartphones" 
+        element={
+          <ProtectedRoute>
+            <SmartphonesAdminPage />
           </ProtectedRoute>
         } 
       />

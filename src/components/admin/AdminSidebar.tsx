@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Bell, Home, FileText, Tag, Layers, Megaphone, Headphones, DollarSign } from "lucide-react";
+import { Bell, Home, FileText, Tag, Layers, Megaphone, Headphones, DollarSign, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -41,6 +41,16 @@ const AdminSidebar = () => {
             >
               <Megaphone className="h-4 w-4" />
               Banners
+            </Link>
+            <Link
+              to="/admin/smartphones"
+              className={cn(
+                "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+                pathname === "/admin/smartphones" && "bg-muted text-primary"
+              )}
+            >
+              <Smartphone className="h-4 w-4" />
+              Smartphones
             </Link>
             <Link
               to="/admin/posts"
