@@ -111,6 +111,17 @@ export const SmartphoneFormDialog = ({ smartphone, open, onOpenChange, onSave })
     fileInputRef.current?.click();
   };
 
+  const handleRatingTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    // Formata o valor apenas se forem exatamente dois dígitos (e não '10')
+    // para não interferir com textos mais complexos ou conteúdo colado.
+    if (/^\d{2}$/.test(value) && value !== '10') {
+      setRatingText(`${value[0]},${value[1]}`);
+    } else {
+      setRatingText(value);
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-2xl">
@@ -142,7 +153,7 @@ export const SmartphoneFormDialog = ({ smartphone, open, onOpenChange, onSave })
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="ratingText" className="text-right">Texto da Avaliação</Label>
-              <Input id="ratingText" value={ratingText} onChange={(e) => setRatingText(e.target.value)} className="col-span-3" placeholder="Ex: 4,8 (7,6 mil)" />
+              <Input id="ratingText" value={ratingText} onChange={handleRatingTextChange} className="col-span-3" placeholder="Ex: 4,8 (7,6 mil)" />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="linkedReview" className="text-right">Vincular Review</Label>
