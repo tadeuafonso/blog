@@ -101,10 +101,8 @@ export const PromoBanner = () => {
                   <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px] items-center">
                     <img
                       alt={banner.title}
-                      className="mx-auto aspect-video w-full max-w-lg rounded-xl object-cover lg:order-last lg:aspect-square"
-                      height="400"
+                      className="mx-auto w-full max-w-lg rounded-xl object-contain lg:order-last"
                       src={banner.image_url || "https://placehold.co/1200x1200"}
-                      width="1200"
                     />
                     <div className="flex flex-col justify-center space-y-4 text-white text-center lg:text-left">
                       <div className="space-y-2">
