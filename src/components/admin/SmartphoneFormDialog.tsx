@@ -126,6 +126,9 @@ export const SmartphoneFormDialog = ({ smartphone, open, onOpenChange, onSave })
             <div className="grid grid-cols-4 items-start gap-4">
               <Label htmlFor="image" className="text-right pt-2">Imagem</Label>
               <div className="col-span-3 flex flex-col items-start gap-2">
+                <p className="text-sm text-muted-foreground">
+                  Tamanho ideal: 800x1000 pixels (4:5)
+                </p>
                 <Button type="button" variant="outline" onClick={triggerFileUpload}>
                   <Upload className="mr-2 h-4 w-4" /> Selecionar Imagem
                 </Button>
