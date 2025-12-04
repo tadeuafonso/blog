@@ -83,10 +83,11 @@ const SmartphonesPage = () => {
                       <img src={phone.image_url || 'https://placehold.co/400x400'} alt={phone.name} className="rounded-t-lg aspect-square object-cover" />
                       <CardContent className="p-4 flex-1">
                         <p className="text-sm text-muted-foreground mb-2">{phone.name}</p>
-                        {phone.rating_text && (
+                        {phone.rating && (
                           <div className="flex items-center gap-1 text-sm mb-2">
                             <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                            <span>{phone.rating_text}</span>
+                            <span className="font-bold">{phone.rating}</span>
+                            <span className="text-sm text-muted-foreground">/ 10</span>
                           </div>
                         )}
                         <p className="text-2xl font-bold">{phone.price}</p>

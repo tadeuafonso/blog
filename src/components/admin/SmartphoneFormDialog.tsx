@@ -32,7 +32,7 @@ const fetchReviews = async () => {
 export const SmartphoneFormDialog = ({ smartphone, open, onOpenChange, onSave }) => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [ratingText, setRatingText] = useState("");
+  const [rating, setRating] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [affiliateLinkAmazon, setAffiliateLinkAmazon] = useState("");
@@ -49,7 +49,7 @@ export const SmartphoneFormDialog = ({ smartphone, open, onOpenChange, onSave })
     if (smartphone) {
       setName(smartphone.name || "");
       setPrice(smartphone.price || "");
-      setRatingText(smartphone.rating_text || "");
+      setRating(smartphone.rating?.toString().replace('.', ',') || "");
       setImageUrl(smartphone.image_url || "");
       setAffiliateLinkAmazon(smartphone.affiliate_link_amazon || "");
       setAffiliateLinkMl(smartphone.affiliate_link_ml || "");
@@ -57,7 +57,7 @@ export const SmartphoneFormDialog = ({ smartphone, open, onOpenChange, onSave })
     } else {
       setName("");
       setPrice("");
-      setRatingText("");
+      setRating("");
       setImageUrl("");
       setAffiliateLinkAmazon("");
       setAffiliateLinkMl("");
@@ -88,7 +88,7 @@ export const SmartphoneFormDialog = ({ smartphone, open, onOpenChange, onSave })
       ...smartphone,
       name,
       price,
-      rating_text: ratingText,
+      rating: parseFloat(rating.replace(',', '.')) || 0,
       image_url: finalImageUrl,
       affiliate_link_amazon: affiliateLinkAmazon,
       affiliate_link_ml: affiliateLinkMl,
@@ -111,15 +111,21 @@ export const SmartphoneFormDialog = ({ smartphone, open, onOpenChange, onSave })
     fileInputRef.current?.click();
   };
 
-  const handleRatingTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    // Formata o valor apenas se forem exatamente dois dígitos (e não '10')
-    // para não interferir com textos mais complexos ou conteúdo colado.
-    if (/^\d{2}$/.test(value) && value !== '10') {
-      setRatingText(`${value[0]},${value[1]}`);
-    } else {
-      setRatingText(value);
+  const handleRatingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value;
+    const digitsOnly = rawValue.replace(/[^0-9]/g, "");
+    const limitedDigits = digitsOnly.slice(0, 2);
+
+    let formattedValue = limitedDigits;
+    if (limitedDigits.length === 2) {
+      if (limitedDigits === "10") {
+        formattedValue = "10";
+      } else {
+        formattedValue = `${limitedDigits[0]},${limitedDigits.slice(1)}`;
+      }
     }
+    
+    setRating(formattedValue);
   };
 
   return (
@@ -152,8 +158,8 @@ export const SmartphoneFormDialog = ({ smartphone, open, onOpenChange, onSave })
               <Input id="price" value={price} onChange={(e) => setPrice(e.target.value)} className="col-span-3" placeholder="Ex: R$ 4.999,00" />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="ratingText" className="text-right">Texto da Avaliação</Label>
-              <Input id="ratingText" value={ratingText} onChange={handleRatingTextChange} className="col-span-3" placeholder="Ex: 4,8 (7,6 mil)" />
+              <Label htmlFor="rating" className="text-right">Avaliação</Label>
+              <Input id="rating" value={rating} onChange={handleRatingChange} className="col-span-3" placeholder="Ex: 9,8" />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="linkedReview" className="text-right">Vincular Review</Label>
