@@ -133,7 +133,7 @@ export const SmartphoneFormDialog = ({ smartphone, open, onOpenChange, onSave })
                   <Upload className="mr-2 h-4 w-4" /> Selecionar Imagem
                 </Button>
                 <input type="file" ref={fileInputRef} onChange={handleImageUpload} className="hidden" accept="image/*" />
-                {imageUrl && <img src={imageUrl} alt="Pré-visualização" className="mt-2 rounded-md object-cover h-32 w-32" />}
+                {imageUrl && <img src={imageUrl} alt="Pré-visualização" className="mt-2 rounded-md object-contain h-32 w-32 border" />}
               </div>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
