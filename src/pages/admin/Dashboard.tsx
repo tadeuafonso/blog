@@ -24,22 +24,25 @@ const fetchDashboardStats = async () => {
     .from('categories')
     .select('*', { count: 'exact', head: true });
   
-  const { data: visitsData, error: visitsError } = await supabase
+  const { data: analyticsData, error: analyticsError } = await supabase
     .from('analytics')
-    .select('value')
-    .eq('key', 'total_visits')
-    .single();
+    .select('key, value')
+    .in('key', ['total_visits', 'monthly_clicks']);
 
-  if (reviewsError || accessoriesError || categoriesError || visitsError) {
-    console.error(reviewsError || accessoriesError || categoriesError || visitsError);
+  if (reviewsError || accessoriesError || categoriesError || analyticsError) {
+    console.error(reviewsError || accessoriesError || categoriesError || analyticsError);
     throw new Error("Não foi possível carregar as estatísticas.");
   }
+
+  const totalVisits = analyticsData?.find(item => item.key === 'total_visits')?.value ?? 0;
+  const monthlyClicks = analyticsData?.find(item => item.key === 'monthly_clicks')?.value ?? 0;
 
   return {
     reviewsCount,
     accessoriesCount,
     categoriesCount,
-    totalVisits: visitsData?.value ?? 0,
+    totalVisits,
+    monthlyClicks,
   };
 };
 
@@ -52,22 +55,25 @@ const Admin = () => {
     queryFn: fetchDashboardStats,
   });
 
-  const resetVisitsMutation = useMutation({
+  const resetStatsMutation = useMutation({
     mutationFn: async () => {
-      const { error } = await supabase.rpc('reset_total_visits');
-      if (error) throw error;
+      const { error: visitsError } = await supabase.rpc('reset_total_visits');
+      if (visitsError) throw visitsError;
+      
+      const { error: clicksError } = await supabase.rpc('reset_monthly_clicks');
+      if (clicksError) throw clicksError;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['dashboard_stats'] });
-      showSuccess("Contador de visitas zerado com sucesso!");
+      showSuccess("Estatísticas zeradas com sucesso!");
     },
     onError: (error: Error) => {
-      showError(error.message || "Ocorreu um erro ao zerar as visitas.");
+      showError(error.message || "Ocorreu um erro ao zerar as estatísticas.");
     },
   });
 
   const confirmReset = () => {
-    resetVisitsMutation.mutate();
+    resetStatsMutation.mutate();
     setIsResetConfirmOpen(false);
   };
 
@@ -77,7 +83,7 @@ const Admin = () => {
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">Painel</h2>
           <Button variant="destructive" onClick={() => setIsResetConfirmOpen(true)}>
-            <Trash2 className="mr-2 h-4 w-4" /> Limpar Dados de Visitas
+            <Trash2 className="mr-2 h-4 w-4" /> Limpar Estatísticas
           </Button>
         </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -159,7 +165,11 @@ const Admin = () => {
               <MousePointerClick className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">734</div>
+              {isLoading ? (
+                <Skeleton className="h-8 w-1/2" />
+              ) : (
+                <div className="text-2xl font-bold">{stats?.monthlyClicks ?? 0}</div>
+              )}
               <p className="text-xs text-muted-foreground">
                 Cliques em links de afiliados
               </p>
@@ -172,7 +182,7 @@ const Admin = () => {
         onOpenChange={setIsResetConfirmOpen}
         onConfirm={confirmReset}
         title="Você tem certeza?"
-        description="Essa ação zerará o contador de visitas do site. Isso não pode ser desfeito."
+        description="Essa ação zerará os contadores de visitas e cliques do mês. Isso não pode ser desfeito."
       />
     </AdminLayout>
   );
