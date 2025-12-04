@@ -127,13 +127,13 @@ export const SmartphoneFormDialog = ({ smartphone, open, onOpenChange, onSave })
               <Label htmlFor="image" className="text-right pt-2">Imagem</Label>
               <div className="col-span-3 flex flex-col items-start gap-2">
                 <p className="text-sm text-muted-foreground">
-                  Tamanho ideal: <span className="font-semibold text-foreground">800x1000 pixels</span> (4:5)
+                  Tamanho ideal: <span className="font-semibold text-foreground">800x800 pixels</span> (1:1)
                 </p>
                 <Button type="button" variant="outline" onClick={triggerFileUpload}>
                   <Upload className="mr-2 h-4 w-4" /> Selecionar Imagem
                 </Button>
                 <input type="file" ref={fileInputRef} onChange={handleImageUpload} className="hidden" accept="image/*" />
-                {imageUrl && <img src={imageUrl} alt="Pré-visualização" className="mt-2 rounded-md object-contain h-40 aspect-[4/5] border" />}
+                {imageUrl && <img src={imageUrl} alt="Pré-visualização" className="mt-2 rounded-md object-contain h-32 w-32 border" />}
               </div>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">

@@ -53,7 +53,7 @@ const SmartphonesPage = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {Array.from({ length: 8 }).map((_, index) => (
                   <Card key={index}>
-                    <Skeleton className="rounded-t-lg aspect-[4/5]" />
+                    <Skeleton className="rounded-t-lg aspect-square" />
                     <CardContent className="p-4 space-y-2">
                       <Skeleton className="h-5 w-full" />
                       <Skeleton className="h-5 w-3/4" />
@@ -80,7 +80,7 @@ const SmartphonesPage = () => {
                   const hasAffiliateLinks = phone.affiliate_link_amazon || phone.affiliate_link_ml;
                   return (
                     <Card key={phone.id} className="flex flex-col h-full">
-                      <img src={phone.image_url || 'https://placehold.co/400x500'} alt={phone.name} className="rounded-t-lg aspect-[4/5] object-contain bg-white dark:bg-muted p-4" />
+                      <img src={phone.image_url || 'https://placehold.co/400x400'} alt={phone.name} className="rounded-t-lg aspect-square object-contain bg-white dark:bg-muted p-4" />
                       <CardContent className="p-4 flex-1">
                         <p className="text-sm text-muted-foreground mb-2">{phone.name}</p>
                         {phone.rating_text && (
