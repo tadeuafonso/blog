@@ -40,7 +40,7 @@ export const PromoBanner = () => {
   });
 
   const plugin = useRef(
-    Autoplay({ delay: 5000, stopOnInteraction: true, stopOnMouseEnter: true })
+    Autoplay({ delay: 5000, stopOnInteraction: true })
   );
 
   const [api, setApi] = useState<CarouselApi>();
@@ -92,6 +92,8 @@ export const PromoBanner = () => {
         plugins={[plugin.current]}
         setApi={setApi}
         className="w-full"
+        onMouseEnter={plugin.current.stop}
+        onMouseLeave={plugin.current.reset}
       >
         <CarouselContent>
           {banners.map((banner) => (
