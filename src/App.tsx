@@ -12,6 +12,7 @@ import OffersPageAdmin from "./pages/admin/Offers";
 import CategoriesPage from "./pages/admin/Categories";
 import BannersPage from "./pages/admin/Banners";
 import AccessoriesAdminPage from "./pages/admin/Accessories";
+import PriceGuidesPage from "./pages/admin/PriceGuides";
 import ReviewPage from "./pages/Review";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -21,6 +22,7 @@ import ProtectedRoute from "./components/admin/ProtectedRoute";
 import { useEffect } from "react";
 import { supabase } from "./integrations/supabase/client";
 import CategoryPage from "./pages/Category";
+import PriceGuidePage from "./pages/PriceGuide";
 import OffersPage from "./pages/Offers";
 import ComparisonsPage from "./pages/Comparisons";
 import AboutPage from "./pages/About";
@@ -49,6 +51,7 @@ const AppRoutes = () => {
       <Route path="/" element={<Index />} />
       <Route path="/review/:id" element={<ReviewPage />} />
       <Route path="/category/:slug" element={<CategoryPage />} />
+      <Route path="/guide/:slug" element={<PriceGuidePage />} />
       <Route path="/offers" element={<OffersPage />} />
       <Route path="/comparisons" element={<ComparisonsPage />} />
       <Route path="/about" element={<AboutPage />} />
@@ -103,6 +106,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <BannersPage />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/price-guides" 
+        element={
+          <ProtectedRoute>
+            <PriceGuidesPage />
           </ProtectedRoute>
         } 
       />

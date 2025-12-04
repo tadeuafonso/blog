@@ -27,6 +27,7 @@ import { MultiSelectCategories } from "./MultiSelectCategories";
 export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
   const [title, setTitle] = useState("");
   const [rating, setRating] = useState("");
+  const [price, setPrice] = useState("");
   const [status, setStatus] = useState("Rascunho");
   const [image, setImage] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -43,6 +44,7 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
     if (post) {
       setTitle(post.title || "");
       setRating(post.rating?.toString().replace('.', ',') || "");
+      setPrice(post.price?.toString().replace('.', ',') || "");
       setStatus(post.status || "Rascunho");
       setImage(post.image || "");
       setTags(post.tags || []);
@@ -55,6 +57,7 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
     } else {
       setTitle("");
       setRating("");
+      setPrice("");
       setStatus("Rascunho");
       setImage("");
       setTags([]);
@@ -93,6 +96,7 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
       ...post,
       title,
       rating: parseFloat(rating.replace(',', '.')) || 0,
+      price: price ? parseFloat(price.replace(',', '.')) : null,
       status,
       image: imageUrl,
       tags: tags,
@@ -135,6 +139,13 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
     }
     
     setRating(formattedValue);
+  };
+
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (/^\d*[,]?\d{0,2}$/.test(value)) {
+      setPrice(value);
+    }
   };
 
   return (
@@ -195,6 +206,19 @@ export const PostFormDialog = ({ post, open, onOpenChange, onSave }) => {
                 onChange={handleRatingChange}
                 className="col-span-3"
                 placeholder="Ex: 9,8"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="price" className="text-right">
+                Preço (R$)
+              </Label>
+              <Input
+                id="price"
+                type="text"
+                value={price}
+                onChange={handlePriceChange}
+                className="col-span-3"
+                placeholder="Ex: 2499,90"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">

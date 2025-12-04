@@ -8,7 +8,8 @@ import {
   Tag,
   Layers,
   Megaphone,
-  Headphones
+  Headphones,
+  DollarSign
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -116,6 +117,16 @@ const AdminHeader = () => {
             >
               <Layers className="h-5 w-5" />
               Categorias
+            </Link>
+            <Link
+              to="/admin/price-guides"
+              className={cn(
+                "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground",
+                pathname === "/admin/price-guides" && "bg-muted text-foreground"
+              )}
+            >
+              <DollarSign className="h-5 w-5" />
+              Guias de Preço
             </Link>
           </nav>
         </SheetContent>
