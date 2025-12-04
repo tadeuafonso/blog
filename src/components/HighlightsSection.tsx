@@ -73,7 +73,7 @@ export const HighlightsSection = () => {
                         <img src={review.image || 'https://placehold.co/800x800'} alt={review.title} className="rounded-t-lg aspect-square object-cover" />
                       </CardHeader>
                       <CardContent className="p-4 flex-1">
-                        <CardTitle className="mb-2">{review.title}</CardTitle>
+                        <CardTitle className="mb-2 h-24 line-clamp-3">{review.title}</CardTitle>
                         <div className="flex items-center gap-1">
                           <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                           <span className="font-bold">{review.rating}</span>
