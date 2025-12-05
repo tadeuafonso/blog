@@ -7,6 +7,16 @@ import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from "@tanstack/react-query";
+
+const fetchHomepageData = async () => {
+  const { data, error } = await supabase.rpc('get_homepage_data');
+  if (error) {
+    console.error("Error fetching homepage data:", error);
+    throw new Error(error.message);
+  }
+  return data;
+};
 
 const Index = () => {
   useEffect(() => {
@@ -16,6 +26,11 @@ const Index = () => {
     };
     trackVisit();
   }, []);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['homepage_data'],
+    queryFn: fetchHomepageData,
+  });
 
   return (
     <>
@@ -27,10 +42,10 @@ const Index = () => {
       <div className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-1">
-          <PromoBanner />
-          <HighlightsSection />
-          <CategorySection />
-          <OffersSection />
+          <PromoBanner banners={data?.banners} isLoading={isLoading} />
+          <HighlightsSection reviews={data?.highlights} isLoading={isLoading} />
+          <CategorySection categories={data?.categories} isLoading={isLoading} />
+          <OffersSection offers={data?.offers} isLoading={isLoading} />
         </main>
         <Footer />
       </div>

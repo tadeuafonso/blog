@@ -1,8 +1,6 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "./ui/skeleton";
 import {
   DropdownMenu,
@@ -11,25 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const fetchOffers = async () => {
-  const { data, error } = await supabase
-    .from('offers')
-    .select('*')
-    .order('created_at', { ascending: false })
-    .limit(4);
-
-  if (error) {
-    throw new Error(error.message);
-  }
-  return data;
-};
-
-export const OffersSection = () => {
-  const { data: offers, isLoading } = useQuery({
-    queryKey: ['homepage_offers'],
-    queryFn: fetchOffers,
-  });
-
+export const OffersSection = ({ offers, isLoading }) => {
   return (
     <section className="py-12 md:py-20">
       <div className="container">

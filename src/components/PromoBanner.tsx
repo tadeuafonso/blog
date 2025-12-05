@@ -13,32 +13,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "./ui/skeleton";
 import { useEffect, useRef, useState } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { cn } from "@/lib/utils";
 
-const fetchBanners = async () => {
-  const { data, error } = await supabase
-    .from('banners')
-    .select('*')
-    .eq('is_active', true)
-    .order('created_at', { ascending: false });
-
-  if (error) {
-    throw new Error(error.message);
-  }
-  return data;
-};
-
-export const PromoBanner = () => {
-  const { data: banners, isLoading } = useQuery({
-    queryKey: ['promo_banners'],
-    queryFn: fetchBanners,
-  });
-
+export const PromoBanner = ({ banners, isLoading }) => {
   const plugin = useRef(
     Autoplay({ delay: 5000, stopOnInteraction: true })
   );

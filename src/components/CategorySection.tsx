@@ -1,28 +1,9 @@
 import { Card, CardTitle } from "./ui/card";
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "./ui/skeleton";
 import { iconMap } from "@/components/icons";
 
-const fetchCategories = async () => {
-  const { data, error } = await supabase
-    .from('categories')
-    .select('*')
-    .order('display_order', { ascending: true });
-
-  if (error) {
-    throw new Error(error.message);
-  }
-  return data;
-};
-
-export const CategorySection = () => {
-  const { data: categories, isLoading } = useQuery({
-    queryKey: ['homepage_categories'],
-    queryFn: fetchCategories,
-  });
-
+export const CategorySection = ({ categories, isLoading }) => {
   return (
     <section className="py-12 md:py-20 bg-muted/40">
       <div className="container">

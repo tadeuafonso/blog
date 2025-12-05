@@ -9,30 +9,9 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "./ui/skeleton";
 
-const fetchHighlights = async () => {
-  const { data, error } = await supabase
-    .from('posts')
-    .select('*')
-    .eq('status', 'Publicado')
-    .order('rating', { ascending: false })
-    .limit(6);
-
-  if (error) {
-    throw new Error(error.message);
-  }
-  return data;
-};
-
-export const HighlightsSection = () => {
-  const { data: reviews, isLoading } = useQuery({
-    queryKey: ['highlight_reviews'],
-    queryFn: fetchHighlights,
-  });
-
+export const HighlightsSection = ({ reviews, isLoading }) => {
   return (
     <section className="py-12 md:py-20">
       <div className="container">
